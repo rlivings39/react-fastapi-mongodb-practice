@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+}
+
+/* Strategy https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Aligning_items_in_a_flex_container#using_auto_margins_for_main_axis_alignment */
+.header {
+  display: flex;
+  width: 100%;
+  text-align: center;
+}
+
+.links {
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  background-color: yellow;
+}
+
+.push-right {
+  margin-left: auto;
+}
