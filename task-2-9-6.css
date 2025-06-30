@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+}
+
+.centered-text {
+  width: 50vw;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: yellow;
+}

@@ -1,0 +1,13 @@
+.flex-parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.forty-forty {
+  width: 40vw;
+  height: 40vh;
+  background-color: yellow;
+  text-align: center;
+  line-height: 40vh;
+}

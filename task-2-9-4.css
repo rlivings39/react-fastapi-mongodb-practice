@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+}
+
+.half-width {
+  width: 49vw;
+  display: inline-block;
+  background-color: yellow;
+}
