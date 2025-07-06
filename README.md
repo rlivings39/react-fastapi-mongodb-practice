@@ -12,5 +12,6 @@ In VS Code typing `!` and hitting tab will give you templates. TODO how? Can you
 
 ## Actions
 - [ ] Check out `!` templates in VS Code
-- [ ] Read through Maria's 2.9. HTML/CSS tips for great alignment
-- [ ] Task 2.9.8 next
+- [ ] Read through Maria's 2.9. HTML/CSS tips for great alignment tips
+- [ ] React next
+- [ ] Do a few of the section 2 projects, maybe
