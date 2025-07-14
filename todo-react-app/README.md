@@ -14,7 +14,7 @@ npm run dev
 
 and open the link shown in your terminal.
 
-*[index.html](./index.html) is the main HTML file
-*[main.tsx](./src/main.tsx) is the main TS file
-*[App.tsx](./src/App.tsx) is the root of the main logic
-*[App.css](./src/App.css) is the main CSS
+* [index.html](./index.html) is the main HTML file
+* [main.tsx](./src/main.tsx) is the main TS file
+* [App.tsx](./src/App.tsx) is the root of the main logic
+* [App.css](./src/App.css) is the main CSS
