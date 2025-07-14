@@ -71,6 +71,7 @@ button:focus-visible {
   --add-success-green: rgb(94, 230, 3);
   --light-gray-background: rgb(238, 238, 238);
   --max-width: 800px;
+  --text-padding: 8px;
 }
 
 body {
@@ -98,6 +99,7 @@ input {
   background-color: var(--light-gray-background);
   height: 2rem;
   width: calc(100% - 10px);
+  padding-left: var(--text-padding);
 }
 
 .material-symbols-outlined {
@@ -110,7 +112,7 @@ input {
   font-size: 2.4rem;
   position: absolute;
   top: 0;
-  right: 0;
+  right: calc(-1 * var(--text-padding));
 }
 
 .icon {
@@ -123,6 +125,7 @@ input {
 
 .todo-item {
   background-color: var(--light-gray-background);
+  padding-left: var(--text-padding);
   /* max-width: var(--max-width); */
   text-align: left;
   margin-top: 6px;
