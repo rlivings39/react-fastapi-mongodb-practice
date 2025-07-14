@@ -82,7 +82,13 @@ body {
 #todo {
   max-width: var(--max-width);
   text-align: center;
-  /* position: relative; */
+  /* background-color: lightyellow; */
+  width: 100%;
+  max-width: var(--max-width);
+}
+
+#todo-input {
+  position: relative;
 }
 
 input {
@@ -90,8 +96,8 @@ input {
   border-style: solid;
   border-color: var(--light-gray-background);
   background-color: var(--light-gray-background);
-  /* width: var(--max-width); */
   height: 2rem;
+  width: calc(100% - 10px);
 }
 
 .material-symbols-outlined {
@@ -102,9 +108,9 @@ input {
   background-color: var(--add-success-green);
   border-radius: 100%;
   font-size: 2.4rem;
-  /* position: absolute;
-  right: -10px;
-  top: 0; */
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .icon {
@@ -130,4 +136,10 @@ input {
 
 .completed-task {
   text-decoration: line-through;
+}
+
+.task-button-holder {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
