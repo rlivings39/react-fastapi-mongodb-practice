@@ -3,7 +3,7 @@ import { useState } from "react";
 // import viteLogo from "/vite.svg";
 import "./App.css";
 import TaskInputBox from "./TaskInputBox";
-import TodoList from "./TodoList";
+import TodoItem from "./TodoItem";
 
 export class Task {
   constructor(
@@ -12,20 +12,44 @@ export class Task {
     public id: number
   ) {}
 }
-const TASKS: Task[] = [
-  { isCompleted: false, name: "First task", id: 1 },
-  { isCompleted: false, name: "Second task", id: 2 },
-  { isCompleted: true, name: "Completed task", id: 3 },
-];
-
 function App() {
-  const [count, setCount] = useState(0);
+  const [taskId, setTaskId] = useState(0);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const taskElementList = tasks.map((task) => (
+    <TodoItem
+      key={task.id}
+      task={task}
+      deleteTask={deleteTask}
+      markTaskCompleted={setTaskComplete}
+    />
+  ));
+  function deleteTask(id: number) {
+    const filteredTasks = tasks.filter((task) => task.id !== id);
+    setTasks(filteredTasks);
+  }
+
+  function setTaskComplete(id: number) {
+    const fixedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, isCompleted: true };
+      } else {
+        return { ...task };
+      }
+    });
+    setTasks(fixedTasks);
+  }
+
+  function addTask(name: string) {
+    const newTasks = [...tasks, { isCompleted: false, name, id: taskId }];
+    setTaskId(taskId + 1);
+    setTasks(newTasks);
+  }
 
   return (
     <>
       <h1>To Do List</h1>
-      <TaskInputBox />
-      <TodoList tasks={TASKS} />
+      <TaskInputBox addTask={addTask} />
+      {taskElementList}
     </>
   );
 }
