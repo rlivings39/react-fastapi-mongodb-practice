@@ -80,7 +80,8 @@ body {
   align-items: center;
 }
 
-#todo {
+#todo,
+#root {
   max-width: var(--max-width);
   text-align: center;
   /* background-color: lightyellow; */
