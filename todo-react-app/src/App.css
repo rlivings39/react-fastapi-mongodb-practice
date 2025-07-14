@@ -1,7 +1,7 @@
 :root {
   --add-success-green: rgb(94, 230, 3);
   --light-gray-background: rgb(238, 238, 238);
-  --max-width: 1280px;
+  --max-width: 800px;
   --text-padding: 8px;
 }
 
