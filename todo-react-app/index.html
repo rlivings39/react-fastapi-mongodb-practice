@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,add_circle"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,add_circle,delete,edit"
     />
     <title>To Do React App</title>
   </head>
@@ -14,10 +14,26 @@
     <!-- <div id="root"></div> -->
     <div id="todo">
       <h2>To Do List</h2>
-      <p id="todo-input">
-        <input type="text" placeholder="Add your task" />
-        <span class="material-symbols-outlined-round-centered">add</span>
-      </p>
+      <div id="todo-input">
+        <span>
+          <input type="text" placeholder="Add your task" />
+          <button class="plain-button">
+            <span class="material-symbols-outlined icon add-icon">add</span>
+          </button>
+        </span>
+      </div>
+      <p class="success">To do item added successfully</p>
+      <p class="success">To do item finished successfully</p>
+      <div class="todo-item">
+        <span> Test item </span>
+        <span class="material-symbols-outlined icon">edit</span>
+        <span class="material-symbols-outlined icon">delete</span>
+      </div>
+      <div class="todo-item">
+        <span> Test to do </span>
+        <span class="material-symbols-outlined icon">edit</span>
+        <span class="material-symbols-outlined icon">delete</span>
+      </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

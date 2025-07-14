@@ -67,24 +67,67 @@ button:focus-visible {
   }
 } */
 
+:root {
+  --add-success-green: rgb(94, 230, 3);
+  --light-gray-background: rgb(238, 238, 238);
+  --max-width: 800px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #todo {
-  min-width: 400px;
+  max-width: var(--max-width);
   text-align: center;
+  /* position: relative; */
 }
 
 input {
   border-radius: 20px;
   border-style: solid;
-  border-color: lightgray;
+  border-color: var(--light-gray-background);
+  background-color: var(--light-gray-background);
+  /* width: var(--max-width); */
   height: 2rem;
 }
 
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
-  background-color: rgb(94, 230, 3);
+}
+
+.add-icon {
+  background-color: var(--add-success-green);
   border-radius: 100%;
   font-size: 2.4rem;
+  /* position: absolute;
+  right: -10px;
+  top: 0; */
+}
+
+.icon {
   vertical-align: middle;
-  position: relative;
-  left: -2rem;
+}
+
+.success {
+  color: rgb(72, 180, 0);
+}
+
+.todo-item {
+  background-color: var(--light-gray-background);
+  /* max-width: var(--max-width); */
+  text-align: left;
+  margin-top: 6px;
+  line-height: 2rem;
+  color: rgb(78, 78, 78);
+}
+
+.plain-button {
+  all: unset;
+}
+
+.completed-task {
+  text-decoration: line-through;
 }
