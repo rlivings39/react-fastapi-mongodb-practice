@@ -2,7 +2,7 @@
 
 This is a little to do list React app written in TypeScript.
 
-## How to use
+## How to develop/set up
 
 Download this repo and
 
@@ -18,6 +18,10 @@ and open the link shown in your terminal.
 * [main.tsx](./src/main.tsx) is the main TS file
 * [App.tsx](./src/App.tsx) is the root of the main logic
 * [App.css](./src/App.css) is the main CSS
+
+## Demo
+
+![To do app](./public/todo-app.gif "To do app")
 
 ## Actions
 - [ ] Add way to edit tasks
