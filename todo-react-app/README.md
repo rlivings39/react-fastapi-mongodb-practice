@@ -18,3 +18,9 @@ and open the link shown in your terminal.
 * [main.tsx](./src/main.tsx) is the main TS file
 * [App.tsx](./src/App.tsx) is the root of the main logic
 * [App.css](./src/App.css) is the main CSS
+
+## Actions
+- [ ] Add way to edit tasks
+- [ ] Convert input box into form
+- [ ] Make sure focus and tab order are right
+- [ ] Add a proper backend to store data
