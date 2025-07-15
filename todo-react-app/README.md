@@ -24,7 +24,7 @@ and open the link shown in your terminal.
 ![To do app](./public/todo-app.gif "To do app")
 
 ## Actions
-- [ ] Add way to edit tasks
+- [x] Add way to edit tasks
 - [x] Convert input box into form
 - [ ] Make sure focus and tab order are right
 - [ ] Add a proper backend to store data

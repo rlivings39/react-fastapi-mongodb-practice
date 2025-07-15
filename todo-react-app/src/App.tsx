@@ -21,6 +21,7 @@ function App() {
       task={task}
       deleteTask={deleteTask}
       markTaskCompleted={setTaskComplete}
+      editTask={editTask}
     />
   ));
   function deleteTask(id: number) {
@@ -43,6 +44,17 @@ function App() {
     const newTasks = [...tasks, { isCompleted: false, name, id: taskId }];
     setTaskId(taskId + 1);
     setTasks(newTasks);
+  }
+
+  function editTask(id: number, name: string) {
+    const editedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, name };
+      } else {
+        return { ...task };
+      }
+    });
+    setTasks(editedTasks);
   }
 
   return (

@@ -25,13 +25,16 @@ body {
 }
 
 input {
-  border-radius: 20px;
   border-style: solid;
   border-color: var(--light-gray-background);
   background-color: var(--light-gray-background);
   height: 2rem;
   width: calc(100% - 10px);
   padding-left: var(--text-padding);
+}
+
+.rounded-input {
+  border-radius: 20px;
 }
 
 .material-symbols-outlined {

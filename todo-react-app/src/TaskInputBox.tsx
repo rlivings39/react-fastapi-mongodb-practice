@@ -9,6 +9,7 @@ function TaskInputBox(props: { addTask: (name: string) => void }) {
       <div id="todo-input">
         <form onSubmit={(e) => e.preventDefault()}>
           <input
+            className="rounded-input"
             type="text"
             placeholder="Add your task"
             value={name}
