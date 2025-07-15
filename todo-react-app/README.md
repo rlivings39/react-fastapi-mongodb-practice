@@ -25,6 +25,6 @@ and open the link shown in your terminal.
 
 ## Actions
 - [ ] Add way to edit tasks
-- [ ] Convert input box into form
+- [x] Convert input box into form
 - [ ] Make sure focus and tab order are right
 - [ ] Add a proper backend to store data
