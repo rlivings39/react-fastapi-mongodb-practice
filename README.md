@@ -6,12 +6,20 @@ https://cambridge-dev.com/
 
 Join the [Discord](https://discord.gg/wAMEqRMbdm)
 
-## Initial class on June 30, 2025
+## Structure
 
-In VS Code typing `!` and hitting tab will give you templates. TODO how? Can you customize these?
+My solutions to various tasks from the class are in [tasks/](./tasks/)
+
+The to-do app written in React is in [todo-react-app](./todo-react-app/)
+
+Most of my notes from this class have been incorporated into my [learning-html-css](https://github.com/rlivings39/learning-html-css) repo where I worked through MDN tutorials.
+
+## Notes
+
+In VS Code typing `!` and hitting tab will give you templates with Emmet. Look into others.
 
 ## Actions
-- [ ] Check out `!` templates in VS Code
-- [ ] Read through Maria's 2.9. HTML/CSS tips for great alignment tips
+- [x] Check out `!` templates in VS Code
+- [x] Read through Maria's 2.9. HTML/CSS tips for great alignment tips
 - [ ] React next
 - [ ] Do a few of the section 2 projects, maybe
