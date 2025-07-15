@@ -19,6 +19,8 @@ and open the link shown in your terminal.
 * [App.tsx](./src/App.tsx) is the root of the main logic
 * [App.css](./src/App.css) is the main CSS
 
+A live version (front-end only) is https://rlivings39.github.io/web-class/
+
 ## Demo
 
 ![To do app](./public/todo-app.gif "To do app")
