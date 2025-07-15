@@ -74,7 +74,7 @@ function TodoItem(props: {
         </button>
         <button
           className="plain-button"
-          title="Cancel"
+          title="Cancel editing"
           onClick={() => {
             setIsEditing(false);
           }}
