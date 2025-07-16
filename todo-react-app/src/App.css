@@ -40,6 +40,7 @@ input {
 .todo-input-form {
   position: relative;
   display: flex;
+  margin-bottom: min(6vh, 20px);
 }
 
 .add-icon {
