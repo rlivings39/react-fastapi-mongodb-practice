@@ -2,7 +2,8 @@
   --add-success-green: rgb(94, 230, 3);
   --light-gray-background: rgb(238, 238, 238);
   --max-width: 800px;
-  --text-padding: 8px;
+  --text-padding: 12px;
+  --input-height: 2.8rem;
 }
 
 body {
@@ -15,39 +16,36 @@ body {
 #root {
   max-width: var(--max-width);
   text-align: center;
-  /* background-color: lightyellow; */
   width: 100%;
   max-width: var(--max-width);
-}
-
-#todo-input {
-  position: relative;
 }
 
 input {
   border-style: solid;
   border-color: var(--light-gray-background);
   background-color: var(--light-gray-background);
-  height: 2rem;
-  width: calc(100% - 10px);
+  height: var(--input-height);
   padding-left: var(--text-padding);
 }
 
 .rounded-input {
-  border-radius: 20px;
+  border-radius: 30px;
+  width: 100%;
 }
 
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
+.todo-input-form {
+  position: relative;
+  display: flex;
+}
+
 .add-icon {
   background-color: var(--add-success-green);
   border-radius: 100%;
-  font-size: 2.4rem;
-  position: absolute;
-  top: 0;
-  right: calc(-1 * var(--text-padding));
+  font-size: calc(var(--input-height) + 6px);
 }
 
 .icon {
@@ -61,12 +59,16 @@ input {
 .todo-item {
   background-color: var(--light-gray-background);
   padding-left: var(--text-padding);
-  /* max-width: var(--max-width); */
   text-align: left;
   margin-top: 6px;
   line-height: 2rem;
   color: rgb(78, 78, 78);
   position: relative;
+}
+
+.todo-item input {
+  height: 2rem;
+  padding: 0;
 }
 
 .plain-button {
@@ -81,6 +83,7 @@ input {
   position: absolute;
   top: 0;
   right: 0;
+  align-self: anchor-center;
 }
 
 /* Original boilerplate CSS */

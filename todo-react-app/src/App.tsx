@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import TaskInputBox from "./TaskInputBox";
-import TodoItem from "./TodoItem";
+import TaskInputBox from "./components/TaskInputBox";
+import TodoItem from "./components/TodoItem";
 
 export class Task {
   constructor(

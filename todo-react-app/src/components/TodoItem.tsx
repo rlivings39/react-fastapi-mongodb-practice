@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Task } from "./App";
+import { Task } from "../App";
 
 type TaskFunction = (id: number) => void;
 
