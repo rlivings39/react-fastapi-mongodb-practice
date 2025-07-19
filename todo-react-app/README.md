@@ -25,6 +25,12 @@ A live version (front-end only) is https://rlivings39.github.io/web-class/
 
 ![To do app](./public/todo-app.gif "To do app")
 
+## Backend
+
+I'm working on the backend with FastAPI and currently going through their tutorial
+
+https://fastapi.tiangolo.com/tutorial/path-params/#data-conversion
+
 ## Actions
 - [x] Add way to edit tasks
 - [x] Convert input box into form
