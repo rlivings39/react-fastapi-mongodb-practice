@@ -34,7 +34,6 @@ function App(props: { initialTasks: Record<number, Task> }) {
         headers: { "Content-Type": "application/json" },
       });
       if (resp.ok) {
-        // TODO do we need to maintain this state like this or just ask server?
         const newTasks = { ...tasks };
         delete newTasks[id];
         setTasks(newTasks);
@@ -88,8 +87,6 @@ function App(props: { initialTasks: Record<number, Task> }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name, isCompleted: false }),
       });
-
-      // TODO is ok the right check?
       if (resp.ok) {
         const newTask = (await resp.json()) as Task;
         const newTasks = { ...tasks, [newTask.id]: newTask };

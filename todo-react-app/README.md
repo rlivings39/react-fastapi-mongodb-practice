@@ -21,10 +21,11 @@ and open the link shown in your terminal.
 
 If you're in VS Code you can do `Ctrl+Shift+P` and pick `Tasks: Run Task` then run the `dev and watch` task. That'll launch the fontend, backend, and a `tsc` watch in 3 tiled terminals.
 
-* [index.html](./index.html) is the main HTML file
-* [main.tsx](./src/main.tsx) is the main TS file
-* [App.tsx](./src/App.tsx) is the root of the main logic
-* [App.css](./src/App.css) is the main CSS
+* [index.html](./frontend/index.html) is the main HTML file
+* [main.tsx](./frontend/src/main.tsx) is the main TS file
+* [App.tsx](./frontend/src/App.tsx) is the root of the main logic
+* [App.css](./frontend/src/App.css) is the main CSS
+* [main.py](./backend/main.py) is the FastAPI backend
 
 A live version (front-end only) is https://rlivings39.github.io/web-class/
 
@@ -45,9 +46,9 @@ To set a status code declare a parameter on your route function of type `Respons
 ## Actions
 - [x] Add way to edit tasks
 - [x] Convert input box into form
+- [x] Look at TODOs in new code
 - [ ] Add a proper backend to store data
 - [ ] Add backend tests
-- [ ] Look at TODOs in new code
 - [ ] How to mock out backed when want to test frontend
 - [ ] How to launch backend and frontend correctly
 - [ ] How to handle CORS securely
@@ -55,3 +56,4 @@ To set a status code declare a parameter on your route function of type `Respons
 - [ ] How to containerize things
 - [ ] How to properly handle errors? Maybe add toast messages?
 - [ ] Make sure focus and tab order are right
+- [ ] Ensure type consistency between backend and frontend
