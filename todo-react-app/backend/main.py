@@ -57,13 +57,13 @@ async def tasks() -> List[Task]:
     return list(task_list.tasks.values())
 
 
-# TODO there's a better way to return this info, right?
 @app.post("/tasks", status_code=status.HTTP_201_CREATED)
-async def create_task(input_task: CreateTask) -> Task:
+async def create_task(input_task: CreateTask, response: Response) -> Task:
     new_task = Task(
         name=input_task.name, isCompleted=input_task.isCompleted, id=task_list.next_id()
     )
     task_list.tasks[new_task.id] = new_task
+    response.headers["Location"] = f"/tasks/{new_task.id}"
     return new_task
 
 
@@ -74,7 +74,6 @@ class IdParam(BaseModel):
 @app.delete("/tasks/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_task(id: int, response: Response):
     if id in task_list.tasks:
-        # TODO what's the right status / return stuff?
         del task_list.tasks[id]
         return
 
@@ -90,5 +89,4 @@ async def update_task(id: int, body: CreateTask, response: Response) -> Task | N
 
     task_list.tasks[id].isCompleted = body.isCompleted
     task_list.tasks[id].name = body.name
-    # TODO what to return?
     return task_list.tasks[id]
