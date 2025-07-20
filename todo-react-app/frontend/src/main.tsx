@@ -9,7 +9,6 @@ try {
   if (resp.ok) {
     // TODO how to ensure type consistency
     initialTaskArray = (await resp.json()) as Task[];
-    console.log(initialTaskArray);
   }
 } catch (e) {
   console.error(`Failed to fetch tasks: ${e}`);
