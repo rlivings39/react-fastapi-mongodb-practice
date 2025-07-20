@@ -41,7 +41,19 @@ https://fastapi.tiangolo.com/tutorial/path-params/#data-conversion
 
 It's pretty slick with the integration with Pydantic. You pretty much declare your types and return what you want.
 
-To set a status code declare a parameter on your route function of type `Response` and then edit that
+To set a status code declare a parameter on your route function of type `Response` and then edit that.
+
+https://fullstackopen.com/en/part3/node_js_and_express
+
+shows an end-to-end deployment.
+
+## Questions/feedback for next class
+
+- React: using an object for state. Ok idiom? Am I doing it right?
+- Show fetch and handling code. Is this the right order (i.e. await fetch, if success show)?
+- Deploying front-end and backend?
+- Containerization?
+- Database?
 
 ## Actions
 - [x] Add way to edit tasks
