@@ -16,13 +16,11 @@ export class Task {
     public id: number
   ) {}
 }
-function App(props: { initialTasks: Task[] }) {
-  const [taskId, setTaskId] = useState(0);
-  // TODO make this a map
-  const [tasks, setTasks] = useState<Task[]>(props.initialTasks);
-  const taskElementList = tasks.map((task) => (
+function App(props: { initialTasks: Record<number, Task> }) {
+  const [tasks, setTasks] = useState<Record<number, Task>>(props.initialTasks);
+  const taskElementList = Object.entries(tasks).map(([id, task]) => (
     <TodoItem
-      key={task.id}
+      key={id}
       task={task}
       deleteTask={deleteTask}
       markTaskCompleted={setTaskComplete}
@@ -37,8 +35,9 @@ function App(props: { initialTasks: Task[] }) {
       });
       if (resp.ok) {
         // TODO do we need to maintain this state like this or just ask server?
-        const filteredTasks = tasks.filter((task) => task.id !== id);
-        setTasks(filteredTasks);
+        const newTasks = { ...tasks };
+        delete newTasks[id];
+        setTasks(newTasks);
       }
     } catch (e) {
       reportError("Failed to delete", e);
@@ -50,7 +49,7 @@ function App(props: { initialTasks: Task[] }) {
     edits: { isCompleted?: boolean; name?: string }
   ) {
     try {
-      const task = tasks.find((t) => t.id === id);
+      const task = tasks[id];
       if (!task) {
         return;
       }
@@ -65,16 +64,9 @@ function App(props: { initialTasks: Task[] }) {
         }),
       });
       if (resp.ok) {
-        // TODO can I make this simpler?
         const newTask = (await resp.json()) as Task;
-        const fixedTasks = tasks.map((task) => {
-          if (task.id === id) {
-            return newTask;
-          } else {
-            return { ...task };
-          }
-        });
-        setTasks(fixedTasks);
+        const newTasks = { ...tasks, [id]: newTask };
+        setTasks(newTasks);
       }
     } catch (e) {
       reportError(`Failed to update task`, e);
@@ -100,8 +92,7 @@ function App(props: { initialTasks: Task[] }) {
       // TODO is ok the right check?
       if (resp.ok) {
         const newTask = (await resp.json()) as Task;
-        const newTasks = [...tasks, newTask];
-        setTaskId(taskId + 1);
+        const newTasks = { ...tasks, [newTask.id]: newTask };
         setTasks(newTasks);
       }
     } catch (e) {
