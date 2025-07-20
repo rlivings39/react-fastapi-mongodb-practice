@@ -31,8 +31,19 @@ I'm working on the backend with FastAPI and currently going through their tutori
 
 https://fastapi.tiangolo.com/tutorial/path-params/#data-conversion
 
+It's pretty slick with the integration with Pydantic. You pretty much declare your types and return what you want.
+
+To set a status code declare a parameter on your route function of type `Response` and then edit that
+
 ## Actions
 - [x] Add way to edit tasks
 - [x] Convert input box into form
-- [ ] Make sure focus and tab order are right
 - [ ] Add a proper backend to store data
+- [ ] Look at TODOs in new code
+- [ ] How to mock out backed when want to test frontend
+- [ ] How to launch backend and frontend correctly
+- [ ] How to handle CORS securely
+- [ ] How to set up a database
+- [ ] How to containerize things
+- [ ] How to properly handle errors? Maybe add toast messages?
+- [ ] Make sure focus and tab order are right

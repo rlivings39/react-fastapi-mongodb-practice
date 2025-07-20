@@ -2,6 +2,14 @@ import { useState } from "react";
 
 function TaskInputBox(props: { addTask: (name: string) => void }) {
   const [name, setName] = useState("");
+  // const inputRef = useRef<HTMLInputElement>(null);
+  // const [firstTime, setFirstTime] = useState(true);
+  // useEffect(() => {
+  //   if (firstTime) {
+  //     inputRef.current?.focus();
+  //     setFirstTime(false);
+  //   }
+  // }, [inputRef, firstTime]);
 
   return (
     <>
