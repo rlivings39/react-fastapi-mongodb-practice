@@ -19,6 +19,8 @@ npm run dev
 ```
 and open the link shown in your terminal.
 
+If you're in VS Code you can do `Ctrl+Shift+P` and pick `Tasks: Run Task` then run the `dev and watch` task. That'll launch the fontend, backend, and a `tsc` watch in 3 tiled terminals.
+
 * [index.html](./index.html) is the main HTML file
 * [main.tsx](./src/main.tsx) is the main TS file
 * [App.tsx](./src/App.tsx) is the root of the main logic
