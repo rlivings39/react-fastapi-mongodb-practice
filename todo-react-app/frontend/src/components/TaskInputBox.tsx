@@ -25,10 +25,11 @@ function TaskInputBox(props: { addTask: (name: string) => void }) {
         <button
           className="plain-button task-button-holder"
           onClick={() => {
-            if (name === "") {
+            const newName = name.trim();
+            if (newName === "") {
               return;
             }
-            props.addTask(name);
+            props.addTask(newName);
             setName("");
           }}
         >
