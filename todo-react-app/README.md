@@ -7,11 +7,16 @@ This is a little to do list React app written in TypeScript.
 Download this repo and
 
 ```bash
-cd web-class/todo-react-app
+cd web-class/todo-react-app/backend
+python3 -m venv .venv
+source .venv/bin/activate # or whichever variant you need
+pip install -r requirements.txt
+fastapi dev main.py
+
+cd ../frontend
 npm install
 npm run dev
 ```
-
 and open the link shown in your terminal.
 
 * [index.html](./index.html) is the main HTML file
@@ -39,6 +44,7 @@ To set a status code declare a parameter on your route function of type `Respons
 - [x] Add way to edit tasks
 - [x] Convert input box into form
 - [ ] Add a proper backend to store data
+- [ ] Add backend tests
 - [ ] Look at TODOs in new code
 - [ ] How to mock out backed when want to test frontend
 - [ ] How to launch backend and frontend correctly
