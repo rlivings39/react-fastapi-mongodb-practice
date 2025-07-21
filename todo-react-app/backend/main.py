@@ -1,14 +1,20 @@
 from fastapi import FastAPI, status
 from fastapi import Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, validate_call
-from typing import List, Literal
+from typing import List, Literal, Optional
 from typing import Dict
 
 
 class CreateTask(BaseModel):
     name: str
     isCompleted: bool
+
+
+class UpdateTask(BaseModel):
+    name: Optional[str] = None
+    isCompleted: Optional[bool] = None
 
 
 class Task(BaseModel):
@@ -90,7 +96,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "Hello, world"}
+    return FileResponse("index.html")
 
 
 @app.get("/tasks")
@@ -107,8 +113,13 @@ async def create_task(input_task: CreateTask, response: Response) -> Task:
     return new_task
 
 
-class IdParam(BaseModel):
-    id: int
+@app.get("/tasks/{id}")
+async def get_task(id: int, response: Response):
+    task = app.task_list().tasks.get(id)
+    if task is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return
+    return task
 
 
 @app.delete("/tasks/{id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -120,11 +131,12 @@ async def delete_task(id: int, response: Response):
 
 
 @app.put("/tasks/{id}", status_code=status.HTTP_201_CREATED)
-async def update_task(id: int, body: CreateTask, response: Response) -> Task | None:
+async def update_task(id: int, body: UpdateTask, response: Response) -> Task | None:
     if id not in app.task_list().tasks:
         response.status_code = 404
         return
-
-    app.task_list().tasks[id].isCompleted = body.isCompleted
-    app.task_list().tasks[id].name = body.name
+    if body.isCompleted is not None:
+        app.task_list().tasks[id].isCompleted = body.isCompleted
+    if body.name is not None:
+        app.task_list().tasks[id].name = body.name
     return app.task_list().tasks[id]
