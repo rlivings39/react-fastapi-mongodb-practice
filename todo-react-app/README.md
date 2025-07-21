@@ -60,8 +60,8 @@ shows an end-to-end deployment.
 - [x] Add way to edit tasks
 - [x] Convert input box into form
 - [x] Look at TODOs in new code
+- [x] Add backend tests
 - [ ] Add a proper backend to store data
-- [ ] Add backend tests
 - [ ] How to mock out backed when want to test frontend
 - [ ] How to launch backend and frontend correctly
 - [ ] How to handle CORS securely
