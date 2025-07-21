@@ -67,13 +67,14 @@ pytest
 - [x] Add way to edit tasks
 - [x] Convert input box into form
 - [x] Look at TODOs in new code
+- [x] Add a proper backend to store data
 - [x] Add backend tests
-- [ ] Add a proper backend to store data
-- [ ] How to mock out backed when want to test frontend
-- [ ] How to launch backend and frontend correctly
 - [ ] How to handle CORS securely
 - [ ] How to set up a database
+- [ ] How to launch backend and frontend correctly
 - [ ] How to containerize things
+- [ ] Add frontend tests
+- [ ] How to mock out backed when want to test frontend
 - [ ] How to properly handle errors? Maybe add toast messages?
 - [ ] Make sure focus and tab order are right
 - [ ] Ensure type consistency between backend and frontend
