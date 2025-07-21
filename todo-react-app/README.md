@@ -47,6 +47,13 @@ https://fullstackopen.com/en/part3/node_js_and_express
 
 shows an end-to-end deployment.
 
+To run backend tests:
+
+```bash
+cd todo-react-app/backend
+pytest
+```
+
 ## Questions/feedback for next class
 
 - Locally hosting Google icons
