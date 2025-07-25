@@ -29,6 +29,15 @@ If you're in VS Code you can do `Ctrl+Shift+P` and pick `Tasks: Run Task` then r
 
 A live version (front-end only) is https://rlivings39.github.io/web-class/
 
+## Managing the MongoDB database
+
+```bash
+docker pull mongodb/mongodb-community-server:6.0.23-ubuntu2204
+docker run --name mongodb -d -p 27017:27017 mongodb/mongodb-community-server:6.0.23-ubuntu2204
+
+mongosh --port 27017
+```
+
 ## Demo
 
 ![To do app](./public/todo-app.gif "To do app")
