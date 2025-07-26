@@ -17,18 +17,18 @@ class UpdateTask(BaseModel):
 class Task(BaseModel):
     name: str
     isCompleted: bool
-    id: int
+    id: str
 
 
 class TaskList(ABC):
-    tasks: Dict[int, Task]
+    tasks: Dict[str, Task]
 
     @abstractmethod
     def create_task(self, isCompleted: bool, name: str) -> Task:
         pass
 
     @abstractmethod
-    def delete_task(self, id: int) -> bool:
+    def delete_task(self, id: str) -> bool:
         pass
 
     @abstractmethod
@@ -41,7 +41,7 @@ class TaskList(ABC):
 
 
 class DbTaskList(BaseModel, TaskList):
-    tasks: Dict[int, Task]
+    tasks: Dict[str, Task]
     _next_id: int
 
     def create_task(self, isCompleted: bool, name: str) -> Task:
@@ -58,14 +58,14 @@ class DbTaskList(BaseModel, TaskList):
     def get_next_id(self):
         res = self._next_id
         self._next_id += 1
-        return res
+        return str(res)
 
     def set_tasks(self, tasks: List[CreateTask]):
         raise NotImplementedError("set_tasks not implemented for DB storage")
 
 
 class InMemoryTaskList(BaseModel, TaskList):
-    tasks: Dict[int, Task]
+    tasks: Dict[str, Task]
     _next_id: int
 
     def create_task(self, isCompleted: bool, name: str) -> Task:
@@ -82,13 +82,15 @@ class InMemoryTaskList(BaseModel, TaskList):
     def get_next_id(self):
         res = self._next_id
         self._next_id += 1
-        return res
+        return str(res)
 
     def set_tasks(self, tasks: List[CreateTask]):
         task_list = map(
-            lambda id, task: Task(isCompleted=task.isCompleted, name=task.name, id=id),
+            lambda id, task: Task(
+                isCompleted=task.isCompleted, name=task.name, id=str(id)
+            ),
             range(len(tasks)),
             tasks,
         )
         self._next_id = len(tasks)
-        self.tasks = dict(zip(range(len(tasks)), task_list))
+        self.tasks = {t.id: t for t in task_list}

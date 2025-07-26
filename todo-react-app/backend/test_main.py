@@ -35,9 +35,9 @@ def test_read_tasks(app_init):
     data = response.json()
     assert isinstance(data, list)
     assert data == [
-        {"name": "Test task 1", "isCompleted": False, "id": 0},
-        {"name": "Test task 2", "isCompleted": True, "id": 1},
-        {"name": "Test task 3", "isCompleted": False, "id": 2},
+        {"name": "Test task 1", "isCompleted": False, "id": "0"},
+        {"name": "Test task 2", "isCompleted": True, "id": "1"},
+        {"name": "Test task 3", "isCompleted": False, "id": "2"},
     ]
 
 
@@ -51,7 +51,7 @@ def test_create_task(app_init):
     response = client.post("/tasks", json={"name": "Test task 4", "isCompleted": False})
     assert response.status_code == 201
     task = response.json()
-    assert task == {"name": "Test task 4", "isCompleted": False, "id": 3}
+    assert task == {"name": "Test task 4", "isCompleted": False, "id": "3"}
 
     # We should now have 4 tasks
     response = client.get("/tasks")
@@ -64,7 +64,7 @@ def test_get_task(app_init):
     response = client.get("/tasks/0")
     assert response.status_code == 200
     task = response.json()
-    assert task == {"id": 0, "name": "Test task 1", "isCompleted": False}
+    assert task == {"id": "0", "name": "Test task 1", "isCompleted": False}
 
     response = client.get("/tasks/-1")
     assert response.status_code == 404

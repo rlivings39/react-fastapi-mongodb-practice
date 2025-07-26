@@ -73,7 +73,7 @@ async def create_task(input_task: CreateTask, response: Response) -> Task:
 
 
 @app.get("/tasks/{id}")
-async def get_task(id: int, response: Response):
+async def get_task(id: str, response: Response):
     task = app.task_list().tasks.get(id)
     if task is None:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -82,7 +82,7 @@ async def get_task(id: int, response: Response):
 
 
 @app.delete("/tasks/{id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_task(id: int, response: Response):
+async def delete_task(id: str, response: Response):
     if app.task_list().delete_task(id):
         return
     # Didn't find it
@@ -90,7 +90,7 @@ async def delete_task(id: int, response: Response):
 
 
 @app.put("/tasks/{id}", status_code=status.HTTP_201_CREATED)
-async def update_task(id: int, body: UpdateTask, response: Response) -> Task | None:
+async def update_task(id: str, body: UpdateTask, response: Response) -> Task | None:
     if id not in app.task_list().tasks:
         response.status_code = 404
         return
