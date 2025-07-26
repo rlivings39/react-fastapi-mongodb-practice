@@ -8,7 +8,7 @@ def _task_to_document(task: Task | CreateTask):
     return dict(task)
 
 
-def query_from_id(id: TaskId):
+def _id_to_query(id: TaskId):
     return {"_id": ObjectId(id)}
 
 
@@ -25,7 +25,7 @@ class MongoDBInterface:
         self._task_collection = self._db["tasks"]
 
     def get_task(self, id: TaskId) -> Task | None:
-        result = self._task_collection.find_one(query_from_id(id))
+        result = self._task_collection.find_one(_id_to_query(id))
         if result is None:
             return None
         task = Task(
@@ -42,7 +42,7 @@ class MongoDBInterface:
         )
 
     def delete_task(self, id: TaskId) -> int:
-        result = self._task_collection.delete_one(query_from_id(id))
+        result = self._task_collection.delete_one(_id_to_query(id))
         return result.deleted_count
 
     def num_tasks(self) -> int:
