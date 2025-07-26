@@ -4,6 +4,10 @@ from bson.objectid import ObjectId
 from backend.task import Task, CreateTask
 
 
+def _task_to_document(task: Task | CreateTask):
+    return dict(task)
+
+
 class MongoDBInterface:
     def __init__(self):
         # Provide the mongodb atlas url to connect python to mongodb using pymongo
@@ -17,9 +21,7 @@ class MongoDBInterface:
         self._task_collection = self._db["tasks"]
 
     def create_task(self, task: CreateTask) -> Task:
-        result = self._task_collection.insert_one(
-            {"name": task.name, "isCompleted": task.isCompleted}
-        )
+        result = self._task_collection.insert_one(_task_to_document(task))
         return Task(
             id=str(result.inserted_id), name=task.name, isCompleted=task.isCompleted
         )

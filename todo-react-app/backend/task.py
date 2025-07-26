@@ -9,15 +9,13 @@ class CreateTask(BaseModel):
     isCompleted: bool
 
 
+class Task(CreateTask):
+    id: str
+
+
 class UpdateTask(BaseModel):
     name: Optional[str] = None
     isCompleted: Optional[bool] = None
-
-
-class Task(BaseModel):
-    name: str
-    isCompleted: bool
-    id: str
 
 
 class TaskList(ABC):
