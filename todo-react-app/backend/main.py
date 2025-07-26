@@ -2,46 +2,11 @@ from fastapi import FastAPI, status
 from fastapi import Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from pydantic import BaseModel, validate_call
-from typing import List, Literal, Optional
-from typing import Dict
+from pydantic import validate_call
+from typing import List, Literal
 
 
-class CreateTask(BaseModel):
-    name: str
-    isCompleted: bool
-
-
-class UpdateTask(BaseModel):
-    name: Optional[str] = None
-    isCompleted: Optional[bool] = None
-
-
-class Task(BaseModel):
-    name: str
-    isCompleted: bool
-    id: int
-
-
-class TaskList(BaseModel):
-    tasks: Dict[int, Task]
-    next_id: int
-
-    def create_task(self, isCompleted: bool, name: str) -> Task:
-        task = Task(isCompleted=isCompleted, name=name, id=self.get_next_id())
-        self.tasks[task.id] = task
-        return task
-
-    def delete_task(self, id: int) -> bool:
-        if id in self.tasks:
-            del self.tasks[id]
-            return True
-        return False
-
-    def get_next_id(self):
-        res = self.next_id
-        self.next_id += 1
-        return res
+from backend.task import TaskList, CreateTask, Task, UpdateTask
 
 
 class TodoFastAPI(FastAPI):
