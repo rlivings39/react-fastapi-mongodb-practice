@@ -6,7 +6,14 @@ from pydantic import validate_call
 from typing import List, Literal
 
 
-from backend.task import TaskList, CreateTask, Task, UpdateTask, InMemoryTaskList
+from backend.task import (
+    TaskList,
+    CreateTask,
+    Task,
+    UpdateTask,
+    InMemoryTaskList,
+    TaskId,
+)
 
 
 class TodoFastAPI(FastAPI):
@@ -73,7 +80,7 @@ async def create_task(input_task: CreateTask, response: Response) -> Task:
 
 
 @app.get("/tasks/{id}")
-async def get_task(id: str, response: Response):
+async def get_task(id: TaskId, response: Response):
     task = app.task_list().tasks.get(id)
     if task is None:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -82,7 +89,7 @@ async def get_task(id: str, response: Response):
 
 
 @app.delete("/tasks/{id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_task(id: str, response: Response):
+async def delete_task(id: TaskId, response: Response):
     if app.task_list().delete_task(id):
         return
     # Didn't find it
@@ -90,7 +97,7 @@ async def delete_task(id: str, response: Response):
 
 
 @app.put("/tasks/{id}", status_code=status.HTTP_201_CREATED)
-async def update_task(id: str, body: UpdateTask, response: Response) -> Task | None:
+async def update_task(id: TaskId, body: UpdateTask, response: Response) -> Task | None:
     if id not in app.task_list().tasks:
         response.status_code = 404
         return

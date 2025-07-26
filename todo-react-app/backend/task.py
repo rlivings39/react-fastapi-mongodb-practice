@@ -3,6 +3,8 @@ from typing import List, Optional
 from typing import Dict
 from abc import ABC, abstractmethod
 
+type TaskId = str
+
 
 class CreateTask(BaseModel):
     name: str
@@ -10,7 +12,7 @@ class CreateTask(BaseModel):
 
 
 class Task(CreateTask):
-    id: str
+    id: TaskId
 
 
 class UpdateTask(BaseModel):
@@ -19,14 +21,14 @@ class UpdateTask(BaseModel):
 
 
 class TaskList(ABC):
-    tasks: Dict[str, Task]
+    tasks: Dict[TaskId, Task]
 
     @abstractmethod
     def create_task(self, isCompleted: bool, name: str) -> Task:
         pass
 
     @abstractmethod
-    def delete_task(self, id: str) -> bool:
+    def delete_task(self, id: TaskId) -> bool:
         pass
 
     @abstractmethod
@@ -39,7 +41,7 @@ class TaskList(ABC):
 
 
 class DbTaskList(BaseModel, TaskList):
-    tasks: Dict[str, Task]
+    tasks: Dict[TaskId, Task]
     _next_id: int
 
     def create_task(self, isCompleted: bool, name: str) -> Task:
@@ -63,7 +65,7 @@ class DbTaskList(BaseModel, TaskList):
 
 
 class InMemoryTaskList(BaseModel, TaskList):
-    tasks: Dict[str, Task]
+    tasks: Dict[TaskId, Task]
     _next_id: int
 
     def create_task(self, isCompleted: bool, name: str) -> Task:

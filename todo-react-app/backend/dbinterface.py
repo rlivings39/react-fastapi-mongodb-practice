@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-from backend.task import Task, CreateTask
+from backend.task import Task, CreateTask, TaskId
 
 
 def _task_to_document(task: Task | CreateTask):
@@ -20,11 +20,18 @@ class MongoDBInterface:
         self._db = self._client[db_name]
         self._task_collection = self._db["tasks"]
 
+    def get_task(self, id: TaskId):
+        pass
+
     def create_task(self, task: CreateTask) -> Task:
         result = self._task_collection.insert_one(_task_to_document(task))
         return Task(
             id=str(result.inserted_id), name=task.name, isCompleted=task.isCompleted
         )
+
+    def delete_task(self, id: TaskId) -> int:
+        result = self._task_collection.delete_one({"_id": ObjectId(id)})
+        return result.deleted_count
 
     def num_tasks(self) -> int:
         return self._task_collection.count_documents({})
