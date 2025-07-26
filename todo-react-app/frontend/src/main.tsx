@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App, { Task } from "./App.tsx";
+import App, { Task, type TaskMap } from "./App.tsx";
 let initialTaskArray: Task[] = [];
-const initialTasks: Record<number, Task> = {};
+const initialTasks: TaskMap = {};
 try {
   const resp = await fetch("http://localhost:8000/tasks");
   if (resp.ok) {

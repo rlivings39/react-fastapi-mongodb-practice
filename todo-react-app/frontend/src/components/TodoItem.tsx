@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect } from "react";
-import { Task } from "../App";
+import { Task, type TaskId } from "../App";
 
-type TaskFunction = (id: number) => void;
+type TaskFunction = (id: TaskId) => void;
 
 function TodoItem(props: {
   task: Task;
   deleteTask: TaskFunction;
   markTaskCompleted: TaskFunction;
-  editTask: (id: number, name: string) => void;
+  editTask: (id: TaskId, name: string) => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskName, setNewTaskName] = useState(props.task.name);

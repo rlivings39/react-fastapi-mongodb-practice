@@ -9,15 +9,20 @@ function reportError(message: string, e: unknown) {
     console.error(e.stack);
   }
 }
+
+export type TaskId = string;
+
 export class Task {
   constructor(
     public name: string,
     public isCompleted: boolean,
-    public id: number
+    public id: TaskId
   ) {}
 }
-function App(props: { initialTasks: Record<number, Task> }) {
-  const [tasks, setTasks] = useState<Record<number, Task>>(props.initialTasks);
+
+export type TaskMap = Record<TaskId, Task>;
+function App(props: { initialTasks: TaskMap }) {
+  const [tasks, setTasks] = useState<TaskMap>(props.initialTasks);
   const taskElementList = Object.entries(tasks).map(([id, task]) => (
     <TodoItem
       key={id}
@@ -27,7 +32,7 @@ function App(props: { initialTasks: Record<number, Task> }) {
       editTask={editTask}
     />
   ));
-  async function deleteTask(id: number) {
+  async function deleteTask(id: TaskId) {
     try {
       const resp = await fetch(`http://localhost:8000/tasks/${id}`, {
         method: "DELETE",
@@ -44,7 +49,7 @@ function App(props: { initialTasks: Record<number, Task> }) {
   }
 
   async function updateTask(
-    id: number,
+    id: TaskId,
     edits: { isCompleted?: boolean; name?: string }
   ) {
     try {
@@ -72,11 +77,11 @@ function App(props: { initialTasks: Record<number, Task> }) {
     }
   }
 
-  function setTaskComplete(id: number) {
+  function setTaskComplete(id: TaskId) {
     updateTask(id, { isCompleted: true });
   }
 
-  function editTask(id: number, name: string) {
+  function editTask(id: TaskId, name: string) {
     updateTask(id, { name });
   }
 
