@@ -40,7 +40,7 @@ mongosh --port 27017
 
 ## Demo
 
-![To do app](./public/todo-app.gif "To do app")
+![To do app](./frontend/public/todo-app.gif "To do app")
 
 ## Backend
 
