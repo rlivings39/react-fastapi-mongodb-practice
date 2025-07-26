@@ -1,6 +1,6 @@
-# To do app with React
+# To do app with React, FastAPI, and MongoDB
 
-This is a little to do list React app written in TypeScript.
+This is a little to do list app so I can practice React/TypeScript, FastAPI, and MongoDB. It started with a [project idea](https://cambridge-dev.com/program/317) from a [web dev meetup](https://www.meetup.com/boston-web-dev-class/) at the Cambridge, MA public library.
 
 ## How to develop/set up
 
@@ -26,6 +26,7 @@ If you're in VS Code you can do `Ctrl+Shift+P` and pick `Tasks: Run Task` then r
 * [App.tsx](./frontend/src/App.tsx) is the root of the main logic
 * [App.css](./frontend/src/App.css) is the main CSS
 * [main.py](./backend/main.py) is the FastAPI backend
+* [dbinterface.py](./backend/dbinterface.py) is the MongoDB interface
 
 A live version (front-end only) is https://rlivings39.github.io/web-class/
 
@@ -59,7 +60,7 @@ shows an end-to-end deployment.
 To run backend tests:
 
 ```bash
-cd todo-react-app/backend
+cd backend
 pytest
 ```
 
@@ -78,6 +79,7 @@ pytest
 - [x] Look at TODOs in new code
 - [x] Add a proper backend to store data
 - [x] Add backend tests
+- [ ] Add database instructions to README
 - [ ] How to handle CORS securely
 - [ ] How to set up a database
 - [ ] How to launch backend and frontend correctly

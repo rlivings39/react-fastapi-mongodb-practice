@@ -8,9 +8,9 @@ Join the [Discord](https://discord.gg/wAMEqRMbdm)
 
 ## Structure
 
-My solutions to various tasks from the class are in [tasks/](./tasks/)
+My solutions to various tasks from the class are in [tasks/](../css-practice-tasks/)
 
-The to-do app written in React is in [todo-react-app](./todo-react-app/)
+The to-do app written in React is in [todo-react-app](../)
 
 Most of my notes from this class have been incorporated into my [learning-html-css](https://github.com/rlivings39/learning-html-css) repo where I worked through MDN tutorials.
 
