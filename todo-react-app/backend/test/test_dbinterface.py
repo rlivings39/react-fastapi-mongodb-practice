@@ -39,3 +39,12 @@ def test_delete_task(get_db):
     num_deleted = db.delete_task(new_task.id)
     assert num_deleted == 0
     assert db.num_tasks() == 0
+
+
+def test_get_task(get_db):
+    db = get_db
+    task_info = CreateTask(name="Task 1", isCompleted=False)
+    new_task = db.create_task(task_info)
+    assert db.num_tasks() == 1
+    new_task_lookup = db.get_task(new_task.id)
+    assert new_task_lookup == new_task

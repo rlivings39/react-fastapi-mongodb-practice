@@ -8,6 +8,10 @@ def _task_to_document(task: Task | CreateTask):
     return dict(task)
 
 
+def query_from_id(id: TaskId):
+    return {"_id": ObjectId(id)}
+
+
 class MongoDBInterface:
     def __init__(self, db_name: str = "todo_app"):
         # Provide the mongodb atlas url to connect python to mongodb using pymongo
@@ -20,8 +24,16 @@ class MongoDBInterface:
         self._db = self._client[db_name]
         self._task_collection = self._db["tasks"]
 
-    def get_task(self, id: TaskId):
-        pass
+    def get_task(self, id: TaskId) -> Task | None:
+        result = self._task_collection.find_one(query_from_id(id))
+        if result is None:
+            return None
+        task = Task(
+            id=str(result["_id"]),
+            name=result["name"],
+            isCompleted=result["isCompleted"],
+        )
+        return task
 
     def create_task(self, task: CreateTask) -> Task:
         result = self._task_collection.insert_one(_task_to_document(task))
@@ -30,7 +42,7 @@ class MongoDBInterface:
         )
 
     def delete_task(self, id: TaskId) -> int:
-        result = self._task_collection.delete_one({"_id": ObjectId(id)})
+        result = self._task_collection.delete_one(query_from_id(id))
         return result.deleted_count
 
     def num_tasks(self) -> int:
