@@ -6,7 +6,7 @@ from pydantic import validate_call
 from typing import List, Literal
 
 
-from backend.task import TaskList, CreateTask, Task, UpdateTask
+from backend.task import TaskList, CreateTask, Task, UpdateTask, InMemoryTaskList
 
 
 class TodoFastAPI(FastAPI):
@@ -21,7 +21,8 @@ class TodoFastAPI(FastAPI):
         super().__init__()
         self._data_source = data_source
         if self._data_source == "local":
-            self.set_tasks(initial_tasks)
+            self._task_list = InMemoryTaskList(tasks={}, _next_id=0)
+            self._task_list.set_tasks(initial_tasks)
 
     def task_list(self):
         if self._data_source == "local":
@@ -30,14 +31,7 @@ class TodoFastAPI(FastAPI):
             raise RuntimeError("db mode not implemented")
 
     def set_tasks(self, tasks: List[CreateTask]):
-        task_list = map(
-            lambda id, task: Task(isCompleted=task.isCompleted, name=task.name, id=id),
-            range(len(tasks)),
-            tasks,
-        )
-        next_id = len(tasks)
-        task_dict = dict(zip(range(len(tasks)), task_list))
-        self._task_list = TaskList(tasks=task_dict, next_id=next_id)
+        self._task_list.set_tasks(tasks)
 
 
 app = TodoFastAPI(
