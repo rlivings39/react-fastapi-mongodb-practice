@@ -9,7 +9,7 @@ def _task_to_document(task: Task | CreateTask):
 
 
 class MongoDBInterface:
-    def __init__(self):
+    def __init__(self, table_name: str = "todo_app"):
         # Provide the mongodb atlas url to connect python to mongodb using pymongo
         CONNECTION_STRING = "mongodb://localhost:27017/"
 
@@ -17,7 +17,7 @@ class MongoDBInterface:
         self._client = MongoClient(CONNECTION_STRING)
 
         # Create the database for our example (we will use the same database throughout the tutorial
-        self._db = self._client["todo_app"]
+        self._db = self._client[table_name]
         self._task_collection = self._db["tasks"]
 
     def create_task(self, task: CreateTask) -> Task:

@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 import pytest
 
-from .main import CreateTask, app
+from backend.main import CreateTask, app
 
 client = TestClient(app)
 
