@@ -26,7 +26,7 @@ class MongoDBInterface:
             id=str(result.inserted_id), name=task.name, isCompleted=task.isCompleted
         )
 
-    def num_tasks(self):
+    def num_tasks(self) -> int:
         return self._task_collection.count_documents({})
 
     def print_tasks(self):
