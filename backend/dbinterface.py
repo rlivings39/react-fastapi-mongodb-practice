@@ -1,11 +1,14 @@
+from typing import Dict
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-from backend.task import Task, CreateTask, TaskId
+from backend.task import Task, CreateTask, TaskId, UpdateTask
 
 
-def _task_to_document(task: Task | CreateTask):
-    return dict(task)
+def _task_to_document(task: Task | CreateTask | UpdateTask) -> Dict:
+    task_dict = dict(task)
+    task_dict = {key: value for key, value in task_dict.items() if value is not None}
+    return task_dict
 
 
 def _id_to_query(id: TaskId):
@@ -44,6 +47,14 @@ class MongoDBInterface:
     def delete_task(self, id: TaskId) -> int:
         result = self._task_collection.delete_one(_id_to_query(id))
         return result.deleted_count
+
+    def update_task(self, id: TaskId, update_params: UpdateTask) -> Task | None:
+        query = _id_to_query(id)
+        update = {"$set": _task_to_document(update_params)}
+        response = self._task_collection.update_one(query, update, upsert=False)
+        if response.matched_count == 0:
+            return None
+        return self.get_task(id)
 
     def num_tasks(self) -> int:
         return self._task_collection.count_documents({})

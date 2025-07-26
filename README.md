@@ -7,7 +7,7 @@ This is a little to do list app so I can practice React/TypeScript, FastAPI, and
 Download this repo and
 
 ```bash
-cd web-class/todo-react-app/backend
+cd backend
 python3 -m venv .venv
 source .venv/bin/activate # or whichever variant you need
 pip install -r requirements.txt

@@ -1,10 +1,6 @@
 {
-  "python.testing.pytestArgs": [
-    ".",
-    "-v"
-  ],
+  "python.testing.pytestArgs": [".", "-v"],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true,
+  "python.testing.pytestEnabled": true
   // Needed to make backend test work right
-  "python.testing.cwd": "todo-react-app/backend"
 }

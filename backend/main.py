@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import validate_call
 from typing import List, Literal
-
+import os
 
 from backend.task import (
     TaskList,
@@ -62,7 +62,9 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return FileResponse("index.html")
+    return FileResponse(
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), "index.html")
+    )
 
 
 @app.get("/tasks")
