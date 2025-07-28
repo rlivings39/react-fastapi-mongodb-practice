@@ -79,9 +79,12 @@ pytest
 - [x] Look at TODOs in new code
 - [x] Add a proper backend to store data
 - [x] Add backend tests
+- [x] How to set up a database
 - [ ] Add database instructions to README
+- [ ] Update code to switch between prod and test db
+- [ ] Update test_main.py to test db mode too
+- [ ] Update code to allow switching from in memory mode to db mode from the outside
 - [ ] How to handle CORS securely
-- [ ] How to set up a database
 - [ ] How to launch backend and frontend correctly
 - [ ] How to containerize things
 - [ ] Add frontend tests
