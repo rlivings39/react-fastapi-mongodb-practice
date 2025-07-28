@@ -1,19 +1,14 @@
-from fastapi import FastAPI, status
-from fastapi import Response
+import os
+from typing import List, Literal
+
+from fastapi import FastAPI, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import validate_call
-from typing import List, Literal
-import os
 
-from backend.task import (
-    CreateTask,
-    Task,
-    UpdateTask,
-    TaskId,
-)
-from backend.task_list import TaskList, InMemoryTaskList, DbTaskList
 from backend import settings
+from backend.task import CreateTask, Task, TaskId, UpdateTask
+from backend.task_list import DbTaskList, InMemoryTaskList, TaskList
 
 
 class TodoFastAPI(FastAPI):

@@ -1,9 +1,11 @@
 import traceback
-from fastapi.testclient import TestClient
 from unittest.mock import ANY
+
 import pytest
-from backend.task import Task
+from fastapi.testclient import TestClient
+
 from backend.main import CreateTask, app
+from backend.task import Task
 
 client = TestClient(app)
 

@@ -1,6 +1,7 @@
-from dotenv import dotenv_values
-from typing import Literal
 import os
+from typing import Literal
+
+from dotenv import dotenv_values
 
 IS_PROD: bool = False
 MONGODB_URI: str = ""

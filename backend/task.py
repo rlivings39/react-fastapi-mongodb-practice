@@ -1,5 +1,6 @@
+from typing import Dict, Optional
+
 from pydantic import BaseModel
-from typing import Optional, Dict
 
 type TaskId = str
 

@@ -1,5 +1,6 @@
-from bson import ObjectId
 import pytest
+from bson import ObjectId
+
 from backend.dbinterface import MongoDBInterface
 from backend.task import CreateTask, Task, UpdateTask
 

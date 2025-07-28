@@ -1,7 +1,8 @@
-from typing import List
 from abc import ABC, abstractmethod
+from typing import List
+
 from backend.dbinterface import MongoDBInterface
-from backend.task import CreateTask, Task, UpdateTask, TaskId, TaskDict
+from backend.task import CreateTask, Task, TaskDict, TaskId, UpdateTask
 
 
 class TaskList(ABC):

@@ -1,8 +1,10 @@
 from typing import Dict, List
-from pymongo import MongoClient
+
 from bson.objectid import ObjectId
-from backend.task import Task, CreateTask, TaskId, UpdateTask, TaskDict
+from pymongo import MongoClient
+
 from backend import settings
+from backend.task import CreateTask, Task, TaskDict, TaskId, UpdateTask
 
 
 def _document_to_task(doc: Dict):
