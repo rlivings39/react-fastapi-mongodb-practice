@@ -28,12 +28,12 @@ class TodoFastAPI(FastAPI):
         super().__init__()
         self._data_source = data_source
         if self._data_source == "local":
-            self._task_list = InMemoryTaskList(_tasks={}, _next_id=0)
+            self._task_list = InMemoryTaskList()
             self._task_list.set_tasks(initial_tasks)
         elif self._data_source == "db":
             if len(initial_tasks) > 0:
                 raise RuntimeError("Initial tasks not supported in database mode")
-            self._task_list = DbTaskList(_db=MongoDBInterface(), _next_id=0)
+            self._task_list = DbTaskList()
 
     def task_list(self):
         return self._task_list

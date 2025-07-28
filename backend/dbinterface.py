@@ -1,8 +1,17 @@
-from typing import Dict
+from typing import Dict, List
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-
+import os
 from backend.task import Task, CreateTask, TaskId, UpdateTask
+
+
+def _document_to_task(doc: Dict):
+    task = Task(
+        id=str(doc["_id"]),
+        name=doc["name"],
+        isCompleted=doc["isCompleted"],
+    )
+    return task
 
 
 def _task_to_document(task: Task | CreateTask | UpdateTask) -> Dict:
@@ -18,7 +27,7 @@ def _id_to_query(id: TaskId):
 class MongoDBInterface:
     def __init__(self, db_name: str = "todo_app"):
         # Provide the mongodb atlas url to connect python to mongodb using pymongo
-        CONNECTION_STRING = "mongodb://localhost:27017/"
+        CONNECTION_STRING = f"mongodb://localhost:27017/"
 
         # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
         self._client = MongoClient(CONNECTION_STRING)
@@ -31,11 +40,7 @@ class MongoDBInterface:
         result = self._task_collection.find_one(_id_to_query(id))
         if result is None:
             return None
-        task = Task(
-            id=str(result["_id"]),
-            name=result["name"],
-            isCompleted=result["isCompleted"],
-        )
+        task = _document_to_task(result)
         return task
 
     def create_task(self, task: CreateTask) -> Task:
@@ -61,15 +66,17 @@ class MongoDBInterface:
 
     def get_all_tasks(self) -> Dict[TaskId, Task]:
         task_list = self._task_collection.find()
-        task_dict = {
-            t["_id"]: Task(id=t["_id"], name=t["name"], isCompleted=t["isCompleted"])
-            for t in task_list
-        }
+        task_dict = {t["_id"]: _document_to_task(t) for t in task_list}
         return task_dict
 
     def print_tasks(self):
         for task in self._task_collection.find():
             print(task)
+
+    def set_tasks(self, tasks: List[CreateTask]):
+        self._task_collection.drop()
+        for task in tasks:
+            self.create_task(task)
 
 
 if __name__ == "__main__":

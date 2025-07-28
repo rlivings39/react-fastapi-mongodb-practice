@@ -35,7 +35,10 @@ class TaskList(ABC):
 
 class DbTaskList(BaseModel, TaskList):
     _db: MongoDBInterface
-    _next_id: int
+
+    def __init__(self, *v, **kw):
+        super().__init__(*v, **kw)
+        self._db = MongoDBInterface()
 
     def tasks(self) -> Dict[TaskId, Task]:
         return self._db.get_all_tasks()
@@ -55,12 +58,17 @@ class DbTaskList(BaseModel, TaskList):
         return del_count == 1
 
     def set_tasks(self, tasks: List[CreateTask]):
-        raise NotImplementedError("set_tasks not implemented for DB storage")
+        self._db.set_tasks(tasks)
 
 
 class InMemoryTaskList(BaseModel, TaskList):
     _tasks: Dict[TaskId, Task]
     _next_id: int
+
+    def __init__(self, *v, **kw):
+        super().__init__(*v, **kw)
+        self._next_id = 0
+        self._tasks = {}
 
     def tasks(self) -> Dict[TaskId, Task]:
         return self._tasks
