@@ -91,9 +91,9 @@ pytest
 - [x] Update code to switch between prod and test db
 - [x] Update test_main.py to test db mode too
 - [x] Update code to allow switching from in memory mode to db mode from the outside
+- [x] How to handle CORS securely
 - [ ] Add database instructions to README
 - [ ] Update backend tests to fail fast if MongoDB connection fails
-- [ ] How to handle CORS securely
 - [ ] How to launch backend and frontend correctly
 - [ ] How to containerize things
 - [ ] Add frontend tests
