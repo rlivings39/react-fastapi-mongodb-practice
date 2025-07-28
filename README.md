@@ -87,10 +87,11 @@ pytest
 - [x] Add a proper backend to store data
 - [x] Add backend tests
 - [x] How to set up a database
+- [x] Update code to switch between prod and test db
+- [x] Update test_main.py to test db mode too
+- [x] Update code to allow switching from in memory mode to db mode from the outside
 - [ ] Add database instructions to README
-- [ ] Update code to switch between prod and test db
-- [ ] Update test_main.py to test db mode too
-- [ ] Update code to allow switching from in memory mode to db mode from the outside
+- [ ] Update backend tests to fail fast if MongoDB connection fails
 - [ ] How to handle CORS securely
 - [ ] How to launch backend and frontend correctly
 - [ ] How to containerize things

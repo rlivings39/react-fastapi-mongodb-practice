@@ -2,6 +2,7 @@ from bson import ObjectId
 import pytest
 from backend.dbinterface import MongoDBInterface
 from backend.task import CreateTask, Task, UpdateTask
+import traceback
 
 DB_NAME = "test_todo_app"
 

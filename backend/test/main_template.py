@@ -1,13 +1,8 @@
+import traceback
 from fastapi.testclient import TestClient
 from unittest.mock import ANY
 import pytest
-
-from backend import settings
-from backend.task import TaskDict, Task
-
-# TODO allow this to work in db mode as well
-settings.BACKEND_MODE = "local"
-
+from backend.task import Task
 from backend.main import CreateTask, app
 
 client = TestClient(app)
@@ -23,15 +18,6 @@ def _task_to_route(task: Task):
     return f"/tasks/{task.id}"
 
 
-def test_root_route():
-    response = client.get("/")
-    assert response.status_code == 200
-    # Ensure we have an HTML page that mentions the docs
-    assert response.headers["Content-Type"].find("text/html") >= 0
-    page = response.content.decode("utf-8")
-    assert page.find("docs") >= 0
-
-
 @pytest.fixture
 def app_init():
     """A fixture to ensure that the backend is initialized with a known set of tasks. This ensures reproducible testing.
@@ -44,6 +30,15 @@ def app_init():
     task_list = list(task_dict.values())
     task_list.sort(key=lambda t: t.name)
     yield task_list
+
+
+def test_root_route():
+    response = client.get("/")
+    assert response.status_code == 200
+    # Ensure we have an HTML page that mentions the docs
+    assert response.headers["Content-Type"].find("text/html") >= 0
+    page = response.content.decode("utf-8")
+    assert page.find("docs") >= 0
 
 
 def test_read_tasks(app_init):

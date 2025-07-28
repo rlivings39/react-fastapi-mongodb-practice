@@ -38,7 +38,9 @@ class MongoDBInterface:
         CONNECTION_STRING = settings.MONGODB_URI
 
         # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
-        self._client = MongoClient(CONNECTION_STRING)
+        self._client = MongoClient(
+            CONNECTION_STRING, connectTimeoutMs=5000, timeoutMs=5000
+        )
 
         # Create the database for our example (we will use the same database throughout the tutorial
         self._db = self._client[db_name]
