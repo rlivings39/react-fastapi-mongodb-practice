@@ -1,3 +1,4 @@
+from bson import ObjectId
 import pytest
 from backend.dbinterface import MongoDBInterface
 from backend.task import CreateTask, Task, UpdateTask
@@ -58,6 +59,25 @@ def test_update_task(get_db):
     updated_task = db.update_task(new_task.id, UpdateTask())
     assert updated_task == new_task
     # 2. Update name only TODO
+    new_name1 = "New name 1"
+    updated_task = db.update_task(new_task.id, UpdateTask(name=new_name1))
+    new_task.name = new_name1
+    assert updated_task == new_task
     # 3. Update isCompleted only TODO
+    new_is_completed1 = not new_task.isCompleted
+    updated_task = db.update_task(
+        new_task.id, UpdateTask(isCompleted=new_is_completed1)
+    )
+    new_task.isCompleted = new_is_completed1
+    assert updated_task == new_task
     # 4. Update both TODO
+    new_name2 = "New Name 2"
+    new_is_completed2 = not new_task.isCompleted
+    updated_task = db.update_task(
+        new_task.id, UpdateTask(name=new_name2, isCompleted=new_is_completed2)
+    )
+    new_task.name = new_name2
+    new_task.isCompleted = new_is_completed2
+    assert updated_task == new_task
     # 5. Update non-existent TODO
+    assert db.update_task(ObjectId(), UpdateTask()) is None
