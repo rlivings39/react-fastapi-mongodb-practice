@@ -82,6 +82,7 @@ pytest
 - [x] How to set up a database
 - [ ] Add database instructions to README
 - [ ] Update code to switch between prod and test db
+- [ ] Consider [Pydantic settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/#dotenv-env-support)
 - [ ] Update test_main.py to test db mode too
 - [ ] Update code to allow switching from in memory mode to db mode from the outside
 - [ ] How to handle CORS securely
