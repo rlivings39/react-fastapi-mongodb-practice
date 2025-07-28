@@ -75,6 +75,7 @@ pytest
 
 - Locally hosting Google icons
 - React: using an object for state. Ok idiom? Am I doing it right?
+  - Maria says to check out `useReducer`
 - Show fetch and handling code. Is this the right order (i.e. await fetch, if success show)?
 - Deploying front-end and backend?
 - Containerization?
