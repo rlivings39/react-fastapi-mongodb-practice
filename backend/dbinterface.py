@@ -1,8 +1,7 @@
 from typing import Dict, List
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-import os
-from backend.task import Task, CreateTask, TaskId, UpdateTask
+from backend.task import Task, CreateTask, TaskId, UpdateTask, TaskDict
 
 
 def _document_to_task(doc: Dict):
@@ -64,7 +63,7 @@ class MongoDBInterface:
     def num_tasks(self) -> int:
         return self._task_collection.count_documents({})
 
-    def get_all_tasks(self) -> Dict[TaskId, Task]:
+    def get_all_tasks(self) -> TaskDict:
         task_list = self._task_collection.find()
         task_dict = {t["_id"]: _document_to_task(t) for t in task_list}
         return task_dict

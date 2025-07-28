@@ -1,7 +1,9 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Dict
 
 type TaskId = str
+
+type TaskDict = Dict[TaskId, Task]
 
 
 class CreateTask(BaseModel):

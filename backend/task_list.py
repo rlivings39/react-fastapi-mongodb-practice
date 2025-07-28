@@ -1,15 +1,13 @@
-from pydantic import BaseModel
 from typing import List
-from typing import Dict
 from abc import ABC, abstractmethod
 from backend.dbinterface import MongoDBInterface
-from backend.task import CreateTask, Task, UpdateTask, TaskId
+from backend.task import CreateTask, Task, UpdateTask, TaskId, TaskDict
 
 
 class TaskList(ABC):
 
     @abstractmethod
-    def tasks(self) -> Dict[TaskId, Task]:
+    def tasks(self) -> TaskDict:
         pass
 
     @abstractmethod
@@ -33,14 +31,12 @@ class TaskList(ABC):
         pass
 
 
-class DbTaskList(BaseModel, TaskList):
-    _db: MongoDBInterface
-
+class DbTaskList(TaskList):
     def __init__(self, *v, **kw):
         super().__init__(*v, **kw)
-        self._db = MongoDBInterface()
+        self._db: MongoDBInterface = MongoDBInterface()
 
-    def tasks(self) -> Dict[TaskId, Task]:
+    def tasks(self) -> TaskDict:
         return self._db.get_all_tasks()
 
     def get_task(self, id: TaskId) -> Task | None:
@@ -61,16 +57,13 @@ class DbTaskList(BaseModel, TaskList):
         self._db.set_tasks(tasks)
 
 
-class InMemoryTaskList(BaseModel, TaskList):
-    _tasks: Dict[TaskId, Task]
-    _next_id: int
-
+class InMemoryTaskList(TaskList):
     def __init__(self, *v, **kw):
         super().__init__(*v, **kw)
-        self._next_id = 0
-        self._tasks = {}
+        self._next_id: int = 0
+        self._tasks: TaskDict = {}
 
-    def tasks(self) -> Dict[TaskId, Task]:
+    def tasks(self) -> TaskDict:
         return self._tasks
 
     def get_task(self, id: TaskId) -> Task | None:
