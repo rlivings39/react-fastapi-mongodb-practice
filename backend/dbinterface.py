@@ -2,6 +2,7 @@ from typing import Dict, List
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from backend.task import Task, CreateTask, TaskId, UpdateTask, TaskDict
+from backend import settings
 
 
 def _document_to_task(doc: Dict):
@@ -26,7 +27,7 @@ def _id_to_query(id: TaskId):
 class MongoDBInterface:
     def __init__(self, db_name: str = "todo_app"):
         # Provide the mongodb atlas url to connect python to mongodb using pymongo
-        CONNECTION_STRING = f"mongodb://localhost:27017/"
+        CONNECTION_STRING = settings.MONGODB_URI
 
         # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
         self._client = MongoClient(CONNECTION_STRING)

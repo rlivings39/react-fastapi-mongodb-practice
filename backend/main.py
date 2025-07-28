@@ -6,7 +6,6 @@ from pydantic import validate_call
 from typing import List, Literal
 import os
 
-from backend.dbinterface import MongoDBInterface
 from backend.task import (
     CreateTask,
     Task,
@@ -14,6 +13,7 @@ from backend.task import (
     TaskId,
 )
 from backend.task_list import TaskList, InMemoryTaskList, DbTaskList
+from backend import settings
 
 
 class TodoFastAPI(FastAPI):
@@ -23,16 +23,12 @@ class TodoFastAPI(FastAPI):
     def __init__(
         self,
         data_source: Literal["local"] | Literal["db"],
-        initial_tasks: List[CreateTask],
     ):
         super().__init__()
         self._data_source = data_source
         if self._data_source == "local":
             self._task_list = InMemoryTaskList()
-            self._task_list.set_tasks(initial_tasks)
         elif self._data_source == "db":
-            if len(initial_tasks) > 0:
-                raise RuntimeError("Initial tasks not supported in database mode")
             self._task_list = DbTaskList()
 
     def task_list(self):
@@ -43,12 +39,7 @@ class TodoFastAPI(FastAPI):
 
 
 app = TodoFastAPI(
-    data_source="local",
-    initial_tasks=[
-        CreateTask(name="Task 1", isCompleted=False),
-        CreateTask(name="Task 2", isCompleted=False),
-        CreateTask(name="Task 3", isCompleted=False),
-    ],
+    data_source=settings.BACKEND_MODE,
 )
 
 ## TODO make this actually secure

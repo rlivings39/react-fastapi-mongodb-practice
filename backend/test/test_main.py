@@ -1,6 +1,11 @@
 from fastapi.testclient import TestClient
 import pytest
 
+from backend import settings
+
+# TODO allow this to work in db mode as well
+settings.BACKEND_MODE = "local"
+
 from backend.main import CreateTask, app
 
 client = TestClient(app)
