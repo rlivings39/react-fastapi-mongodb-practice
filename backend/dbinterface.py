@@ -59,6 +59,14 @@ class MongoDBInterface:
     def num_tasks(self) -> int:
         return self._task_collection.count_documents({})
 
+    def get_all_tasks(self) -> Dict[TaskId, Task]:
+        task_list = self._task_collection.find()
+        task_dict = {
+            t["_id"]: Task(id=t["_id"], name=t["name"], isCompleted=t["isCompleted"])
+            for t in task_list
+        }
+        return task_dict
+
     def print_tasks(self):
         for task in self._task_collection.find():
             print(task)

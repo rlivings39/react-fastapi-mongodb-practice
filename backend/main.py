@@ -6,14 +6,14 @@ from pydantic import validate_call
 from typing import List, Literal
 import os
 
+from backend.dbinterface import MongoDBInterface
 from backend.task import (
-    TaskList,
     CreateTask,
     Task,
     UpdateTask,
-    InMemoryTaskList,
     TaskId,
 )
+from backend.task_list import TaskList, InMemoryTaskList, DbTaskList
 
 
 class TodoFastAPI(FastAPI):
@@ -28,14 +28,15 @@ class TodoFastAPI(FastAPI):
         super().__init__()
         self._data_source = data_source
         if self._data_source == "local":
-            self._task_list = InMemoryTaskList(tasks={}, _next_id=0)
+            self._task_list = InMemoryTaskList(_tasks={}, _next_id=0)
             self._task_list.set_tasks(initial_tasks)
+        elif self._data_source == "db":
+            if len(initial_tasks) > 0:
+                raise RuntimeError("Initial tasks not supported in database mode")
+            self._task_list = DbTaskList(_db=MongoDBInterface(), _next_id=0)
 
     def task_list(self):
-        if self._data_source == "local":
-            return self._task_list
-        else:
-            raise RuntimeError("db mode not implemented")
+        return self._task_list
 
     def set_tasks(self, tasks: List[CreateTask]):
         self._task_list.set_tasks(tasks)
@@ -69,7 +70,7 @@ async def root():
 
 @app.get("/tasks")
 async def tasks() -> List[Task]:
-    return list(app.task_list().tasks.values())
+    return list(app.task_list().tasks().values())
 
 
 @app.post("/tasks", status_code=status.HTTP_201_CREATED)
@@ -83,7 +84,7 @@ async def create_task(input_task: CreateTask, response: Response) -> Task:
 
 @app.get("/tasks/{id}")
 async def get_task(id: TaskId, response: Response):
-    task = app.task_list().tasks.get(id)
+    task = app.task_list().get_task(id)
     if task is None:
         response.status_code = status.HTTP_404_NOT_FOUND
         return
@@ -100,11 +101,8 @@ async def delete_task(id: TaskId, response: Response):
 
 @app.put("/tasks/{id}", status_code=status.HTTP_201_CREATED)
 async def update_task(id: TaskId, body: UpdateTask, response: Response) -> Task | None:
-    if id not in app.task_list().tasks:
+    updated = app.task_list().update_task(id, body)
+    if updated is None:
         response.status_code = 404
         return
-    if body.isCompleted is not None:
-        app.task_list().tasks[id].isCompleted = body.isCompleted
-    if body.name is not None:
-        app.task_list().tasks[id].name = body.name
-    return app.task_list().tasks[id]
+    return updated
