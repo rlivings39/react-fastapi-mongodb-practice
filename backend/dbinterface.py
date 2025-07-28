@@ -20,8 +20,16 @@ def _task_to_document(task: Task | CreateTask | UpdateTask) -> Dict:
     return task_dict
 
 
-def _id_to_query(id: TaskId):
-    return {"_id": ObjectId(id)}
+def _id_to_query(id: TaskId) -> Dict[str, ObjectId] | None:
+    """Converts an ID string to a valid MongoDB query
+
+    Returns query dictionary or `None` if the provided `id` is not a valid :class:`ObjectId`
+    """
+    try:
+        oid = ObjectId(id)
+    except:
+        return None
+    return {"_id": oid}
 
 
 class MongoDBInterface:
@@ -37,7 +45,10 @@ class MongoDBInterface:
         self._task_collection = self._db["tasks"]
 
     def get_task(self, id: TaskId) -> Task | None:
-        result = self._task_collection.find_one(_id_to_query(id))
+        query = _id_to_query(id)
+        if query is None:
+            return None
+        result = self._task_collection.find_one(query)
         if result is None:
             return None
         task = _document_to_task(result)
@@ -50,11 +61,16 @@ class MongoDBInterface:
         )
 
     def delete_task(self, id: TaskId) -> int:
-        result = self._task_collection.delete_one(_id_to_query(id))
+        query = _id_to_query(id)
+        if query is None:
+            return 0
+        result = self._task_collection.delete_one(query)
         return result.deleted_count
 
     def update_task(self, id: TaskId, update_params: UpdateTask) -> Task | None:
         query = _id_to_query(id)
+        if query is None:
+            return None
         update = {"$set": _task_to_document(update_params)}
         response = self._task_collection.update_one(query, update, upsert=False)
         if response.matched_count == 0:

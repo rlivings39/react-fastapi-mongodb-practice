@@ -1,7 +1,9 @@
 from fastapi.testclient import TestClient
+from unittest.mock import ANY
 import pytest
 
 from backend import settings
+from backend.task import TaskDict, Task
 
 # TODO allow this to work in db mode as well
 settings.BACKEND_MODE = "local"
@@ -17,6 +19,10 @@ INITIAL_TASKS = [
 ]
 
 
+def _task_to_route(task: Task):
+    return f"/tasks/{task.id}"
+
+
 def test_root_route():
     response = client.get("/")
     assert response.status_code == 200
@@ -28,10 +34,16 @@ def test_root_route():
 
 @pytest.fixture
 def app_init():
-    """
-    A fixture to ensure that the backend is initialized with a known set of tasks. This ensures reproducible testing.
+    """A fixture to ensure that the backend is initialized with a known set of tasks. This ensures reproducible testing.
+
+    Returns list of tasks the database was initialized with
     """
     app.set_tasks(INITIAL_TASKS)
+    # Sort tasks by name for predictable behavior
+    task_dict = app.task_list().tasks()
+    task_list = list(task_dict.values())
+    task_list.sort(key=lambda t: t.name)
+    yield task_list
 
 
 def test_read_tasks(app_init):
@@ -40,10 +52,13 @@ def test_read_tasks(app_init):
     data = response.json()
     assert isinstance(data, list)
     assert data == [
-        {"name": "Test task 1", "isCompleted": False, "id": "0"},
-        {"name": "Test task 2", "isCompleted": True, "id": "1"},
-        {"name": "Test task 3", "isCompleted": False, "id": "2"},
+        {"name": "Test task 1", "isCompleted": False, "id": ANY},
+        {"name": "Test task 2", "isCompleted": True, "id": ANY},
+        {"name": "Test task 3", "isCompleted": False, "id": ANY},
     ]
+    # Ensure IDs are unique
+    ids = {t["id"] for t in data}
+    assert len(ids) == len(data), f"Task IDs are not unique: {ids}"
 
 
 def test_create_task(app_init):
@@ -56,7 +71,7 @@ def test_create_task(app_init):
     response = client.post("/tasks", json={"name": "Test task 4", "isCompleted": False})
     assert response.status_code == 201
     task = response.json()
-    assert task == {"name": "Test task 4", "isCompleted": False, "id": "3"}
+    assert task == {"name": "Test task 4", "isCompleted": False, "id": ANY}
 
     # We should now have 4 tasks
     response = client.get("/tasks")
@@ -66,10 +81,17 @@ def test_create_task(app_init):
 
 
 def test_get_task(app_init):
-    response = client.get("/tasks/0")
+    task_list = app_init
+    # Sort tasks by name for predictable behavior
+    orig_task = task_list[0]
+    response = client.get(_task_to_route(orig_task))
     assert response.status_code == 200
     task = response.json()
-    assert task == {"id": "0", "name": "Test task 1", "isCompleted": False}
+    assert task == {
+        "id": orig_task.id,
+        "name": orig_task.name,
+        "isCompleted": orig_task.isCompleted,
+    }
 
     response = client.get("/tasks/-1")
     assert response.status_code == 404
@@ -77,19 +99,23 @@ def test_get_task(app_init):
 
 def test_delete_task(app_init):
     # Existing task
-    response = client.delete("/tasks/1")
+    task_list = app_init
+    task = task_list[0]
+    delete_route = _task_to_route(task)
+    response = client.delete(delete_route)
     assert response.status_code == 204
     response = client.get("/tasks")
     assert len(response.json()) == 2
 
     # Nonexistent task
-    response = client.delete("/tasks/1")
+    response = client.delete(delete_route)
     assert response.status_code == 404
 
 
 def test_update_task(app_init):
     # Ensure we can update one property at a time
-    route = "/tasks/0"
+    task_list = app_init
+    route = _task_to_route(task_list[0])
     original_task = client.get(route).json()
     # 1. Update nothing
     response = client.put(route, json={})

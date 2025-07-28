@@ -33,6 +33,13 @@ A live version (front-end only) is https://rlivings39.github.io/web-class/
 ## Managing the MongoDB database
 
 ```bash
+# Run dev database
+docker pull mongodb/mongodb-community-server:6.0.23-ubuntu2204
+docker run --name mongodb_dev -d -p 27018:27017 mongodb/mongodb-community-server:6.0.23-ubuntu2204
+
+mongosh --port 27018
+
+# Run prod database
 docker pull mongodb/mongodb-community-server:6.0.23-ubuntu2204
 docker run --name mongodb -d -p 27017:27017 mongodb/mongodb-community-server:6.0.23-ubuntu2204
 
@@ -82,7 +89,6 @@ pytest
 - [x] How to set up a database
 - [ ] Add database instructions to README
 - [ ] Update code to switch between prod and test db
-- [ ] Consider [Pydantic settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/#dotenv-env-support)
 - [ ] Update test_main.py to test db mode too
 - [ ] Update code to allow switching from in memory mode to db mode from the outside
 - [ ] How to handle CORS securely
@@ -92,4 +98,6 @@ pytest
 - [ ] How to mock out backed when want to test frontend
 - [ ] How to properly handle errors? Maybe add toast messages?
 - [ ] Make sure focus and tab order are right
+- [ ] Consider [Pydantic settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/#dotenv-env-support)
+- [ ] Consider something like this [Pydantic interface for MongoDB ObjectId](https://www.mongodb.com/developer/languages/python/python-quickstart-fastapi/)
 - [ ] Ensure type consistency between backend and frontend
