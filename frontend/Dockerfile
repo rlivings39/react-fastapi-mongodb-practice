@@ -35,7 +35,6 @@ EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host"]
 
 # docker build -t my-react-app-build . --target build
-
 FROM base AS build
 WORKDIR /usr/app/frontend
 # Download dependencies as a separate step to take advantage of Docker's caching.

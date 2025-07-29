@@ -18,9 +18,10 @@ WORKDIR /usr/app/backend
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
 # Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
 # into this layer.
+RUN python -m venv venv
+# Enable venv
+ENV PATH="/opt/venv/bin:$PATH"
 RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
 # Run the application as a non-root user.
