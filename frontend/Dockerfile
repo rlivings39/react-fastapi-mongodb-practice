@@ -14,7 +14,7 @@ USER node
 WORKDIR /usr/app/frontend
 
 # docker build -t my-react-app-dev . --target dev
-# docker run --name my_react_app_dev -d -v (pwd):/usr/app/frontend  -p 5173:5173 my-react-app-dev:latest
+# docker run --name my_react_app_dev -d -v (pwd)/index.html:/usr/app/frontend/index.html -v (pwd)/src:/usr/app/frontend/src -p 5173:5173 my-react-app-dev:latest
 FROM base AS dev
 # Expose the port that the application listens on.
 
@@ -31,7 +31,9 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 # USER node
 EXPOSE 5173
 
-# Don't copy as we'll use a bind mount to pull everything in
+# Copy the rest of the source files into the image.
+COPY . .
+
 CMD ["npm", "run", "dev", "--", "--host"]
 
 # docker build -t my-react-app-build . --target build
