@@ -17,7 +17,7 @@ WORKDIR /usr/app/frontend
 # docker run --name my_react_app_dev -d -v (pwd)/index.html:/usr/app/frontend/index.html -v (pwd)/src:/usr/app/frontend/src -p 5173:5173 my-react-app-dev:latest
 FROM base AS dev
 # Expose the port that the application listens on.
-
+WORKDIR /usr/app/frontend
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
 # Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
