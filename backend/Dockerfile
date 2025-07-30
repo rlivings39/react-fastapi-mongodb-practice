@@ -9,8 +9,6 @@
 FROM python:3.13.5-alpine3.22 AS base
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# docker build -t my-react-app-backend-dev . --target dev
-# docker run --name my_react_app_backend_dev -p 8000:8000 -v (pwd):/usr/app/backend my-react-app-backend-dev:latest
 FROM base AS setup
 WORKDIR /usr/app/setup
 
@@ -19,9 +17,11 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    --mount=type=cache,target=/root/.venv \
+    --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt
 
+# docker build -t my-react-app-backend-dev . --target dev
+# docker run --name my_react_app_backend_dev -p 8000:8000 -v (pwd):/usr/app/backend my-react-app-backend-dev:latest
 FROM base AS dev
 WORKDIR /usr/app/backend
 
