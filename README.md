@@ -1,6 +1,6 @@
 # To do app with React, FastAPI, and MongoDB
 
-This is a little to do list app so I can practice React/TypeScript, FastAPI, and MongoDB. It started with a [project idea](https://cambridge-dev.com/program/317) from a [web dev meetup](https://www.meetup.com/boston-web-dev-class/) at the Cambridge, MA public library.
+This is a little to do list app so I can practice React/TypeScript, FastAPI, and MongoDB. It started with a [project idea](https://cambridge-dev.com/program/317) from a [web dev meetup](https://www.meetup.com/boston-web-dev-class/) at the Cambridge, MA public library. Come join us!
 
 ## How to develop/set up
 
@@ -76,8 +76,6 @@ TODO then start MongoDB (see below for Docker commands)
 
 If you're in VS Code you can do `Ctrl+Shift+P` and pick `Tasks: Run Task` then run the `dev and watch` task. That'll launch the fontend, backend, and a `tsc` watch in 3 tiled terminals.
 
-A live version (front-end only) is https://rlivings39.github.io/web-class/
-
 ## Managing the MongoDB database
 
 ```bash
@@ -119,7 +117,7 @@ cd backend
 pytest
 ```
 
-## Questions/feedback for next class
+## Questions/feedback for next meetup
 
 - Locally hosting Google icons
 - React: using an object for state. Ok idiom? Am I doing it right?
