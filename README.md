@@ -15,10 +15,18 @@ Files of interest are
 
 ### Run everything with Docker
 
+> **Note** This repo uses profiles in Docker compose. Make sure to specify the profile in commands via `docker compose --profile dev | prod ...`. Just doing `docker compose down` will leave things in a bad state causing future errors.
+
 From the root of the repo run
 
 ```
 docker compose --profile dev up --build
+```
+
+To stop the stack run
+
+```
+docker compose --profile dev down
 ```
 
 This will start MongoDB, the backend in dev mode, and the frontend in dev mode. Hot reloading is enable via bind mounts for both the frontend and backend. So just edit your code normally and changes should be reflected in realtime.
@@ -37,10 +45,14 @@ To run backend tests in the container
 docker compose exec backend-dev pytest -p no:cacheprovider
 ```
 
-To start everything for production
+To start/stop everything for production
 
-```
+```bash
+# Start the stack
 docker compose --profile prod up --build
+
+# Stop the stack
+docker compose --profile prod down
 ```
 
 ### Run everything manually
