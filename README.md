@@ -18,10 +18,10 @@ Files of interest are
 From the root of the repo run
 
 ```
-docker compose up --build
+docker compose up frontend-dev --build
 ```
 
-This will start MongoDB, the backend in dev mode, and the frontend in dev mode. Hot reloading is enable via bind mounts for both the frontend and backend.
+This will start MongoDB, the backend in dev mode, and the frontend in dev mode. Hot reloading is enable via bind mounts for both the frontend and backend. So just edit your code normally and changes should be reflected in realtime.
 
 To see the frontend visit
 
