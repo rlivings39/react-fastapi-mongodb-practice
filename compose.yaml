@@ -1,0 +1,71 @@
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+# TODO how to separate into dev and prod runs?
+services:
+  backend-dev:
+    build:
+      context: backend
+      target: dev
+    env_file:
+      - backend/.env.dev
+    environment:
+      NODE_ENV: production
+    volumes:
+      - type: bind
+        source: backend
+        target: /usr/app/backend
+    ports:
+      - 8000:8000
+
+    # The commented out section below is an example of how to define a PostgreSQL
+    # database that your application can use. `depends_on` tells Docker Compose to
+    # start the database before your application. The `db-data` volume persists the
+    # database data between container restarts. The `db-password` secret is used
+    # to set the database password. You must create `db/password.txt` and add
+    # a password of your choosing to it before running `docker compose up`.
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0.23-ubuntu2204
+    restart: always
+    # user: postgres
+    # secrets:
+    #   - db-password
+    env_file:
+      - backend/.env.dev
+    # environment:
+    #   # TODO make this secure
+    #   - MONGODB_INITDB_ROOT_USERNAME=user
+    #   - MONGODB_INITDB_ROOT_PASSWORD=pass
+    # volumes:
+    #   - type: bind
+    #     source: ./data
+    #     target: /data/db
+    # environment:
+    #   - POSTGRES_DB=example
+    #   - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    expose:
+      - 27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh $MONGODB_URI --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+#     healthcheck:
+#       test: ["CMD", "pg_isready"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+# # volumes:
+#   db-data:
+# secrets:
+#   db-password:
+#     file: db/password.txt

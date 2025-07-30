@@ -38,6 +38,7 @@ class MongoDBInterface:
     def __init__(self, db_name: str = "todo_app"):
         # Provide the mongodb atlas url to connect python to mongodb using pymongo
         CONNECTION_STRING = settings.MONGODB_URI
+        print(f"MOGODB_URI: {CONNECTION_STRING}")
 
         # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
         self._client = MongoClient(
