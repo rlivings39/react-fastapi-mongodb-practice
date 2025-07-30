@@ -3,3 +3,10 @@ venv
 Dockerfile
 .dockerignore
 __pycache__
+.coverage
+test
+.pytest_cache/
+# TODO handle this securely
+# .env*
+docker.log
+.gitignore

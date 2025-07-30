@@ -92,10 +92,11 @@ pytest
 - [x] Update test_main.py to test db mode too
 - [x] Update code to allow switching from in memory mode to db mode from the outside
 - [x] How to handle CORS securely
+- [ ] How to containerize things
+- [ ] Securely handle database in containerization setup
 - [ ] Add database instructions to README
 - [ ] Update backend tests to fail fast if MongoDB connection fails
 - [ ] How to launch backend and frontend correctly
-- [ ] How to containerize things
 - [ ] Add frontend tests
 - [ ] How to mock out backed when want to test frontend
 - [ ] How to properly handle errors? Maybe add toast messages?

@@ -44,6 +44,26 @@ EXPOSE 8000
 # Run the application.
 CMD ["fastapi", "dev", "main.py", "--host", "0.0.0.0"]
 
-# FROM base AS prod
-# WORKDIR /usr/app/backend
-# COPY --from=
+# docker build -t my-react-app-backend-prod . --target prod
+# docker run --name my_react_app_backend_dev -p 8000:8000 -d my-react-app-backend-prod:latest
+FROM base AS prod
+WORKDIR /usr/app/backend
+
+# Enable venv
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# Run the application as a non-root user.
+USER appuser
+
+# Copy over the venv
+COPY --from=setup /opt/venv /opt/venv
+
+# Copy the rest of the source files into the image.
+COPY . .
+
+# Expose the port that the application listens on.
+EXPOSE 8000
+
+# Run the application.
+CMD ["fastapi", "run", "main.py", "--host", "0.0.0.0"]
