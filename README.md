@@ -4,6 +4,35 @@ This is a little to do list app so I can practice React/TypeScript, FastAPI, and
 
 ## How to develop/set up
 
+Files of interest are
+
+* [index.html](./frontend/index.html) is the main HTML file
+* [main.tsx](./frontend/src/main.tsx) is the main TS file
+* [App.tsx](./frontend/src/App.tsx) is the root of the main logic
+* [App.css](./frontend/src/App.css) is the main CSS
+* [main.py](./backend/main.py) is the FastAPI backend
+* [dbinterface.py](./backend/dbinterface.py) is the MongoDB interface
+
+### Run everything with Docker
+
+From the root of the repo run
+
+```
+docker compose up --build
+```
+
+This will start MongoDB, the backend in dev mode, and the frontend in dev mode. Hot reloading is enable via bind mounts for both the frontend and backend.
+
+To see the frontend visit
+
+http://localhost:5173/
+
+To see the backend doc visit
+
+http://localhost:8000/docs/
+
+### Run everything manually
+
 Download this repo and
 
 ```bash
@@ -19,14 +48,9 @@ npm run dev
 ```
 and open the link shown in your terminal.
 
-If you're in VS Code you can do `Ctrl+Shift+P` and pick `Tasks: Run Task` then run the `dev and watch` task. That'll launch the fontend, backend, and a `tsc` watch in 3 tiled terminals.
+TODO then start MongoDB (see below for Docker commands)
 
-* [index.html](./frontend/index.html) is the main HTML file
-* [main.tsx](./frontend/src/main.tsx) is the main TS file
-* [App.tsx](./frontend/src/App.tsx) is the root of the main logic
-* [App.css](./frontend/src/App.css) is the main CSS
-* [main.py](./backend/main.py) is the FastAPI backend
-* [dbinterface.py](./backend/dbinterface.py) is the MongoDB interface
+If you're in VS Code you can do `Ctrl+Shift+P` and pick `Tasks: Run Task` then run the `dev and watch` task. That'll launch the fontend, backend, and a `tsc` watch in 3 tiled terminals.
 
 A live version (front-end only) is https://rlivings39.github.io/web-class/
 
@@ -52,7 +76,7 @@ mongosh --port 27017
 
 ## Backend
 
-I'm working on the backend with FastAPI and currently going through their tutorial
+The backend is built with FastAPI:
 
 https://fastapi.tiangolo.com/tutorial/path-params/#data-conversion
 
@@ -94,6 +118,8 @@ pytest
 - [x] How to handle CORS securely
 - [ ] How to containerize things
 - [ ] Securely handle database in containerization setup
+- [ ] Make env handling more sane in [settings.py](./backend/settings.py)
+- [ ] Document env handling
 - [ ] Add database instructions to README
 - [ ] Update backend tests to fail fast if MongoDB connection fails
 - [ ] How to launch backend and frontend correctly

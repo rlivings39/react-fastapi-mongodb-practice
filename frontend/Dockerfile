@@ -18,6 +18,7 @@ WORKDIR /usr/app/frontend
 FROM base AS dev
 # Expose the port that the application listens on.
 WORKDIR /usr/app/frontend
+ENV NODE_ENV=development
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
 # Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
@@ -39,6 +40,7 @@ CMD ["npm", "run", "dev", "--", "--host"]
 # docker build -t my-react-app-build . --target build
 FROM base AS build
 WORKDIR /usr/app/frontend
+ENV NODE_ENV=production
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
 # Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into

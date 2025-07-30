@@ -43,6 +43,13 @@ def test_root_route():
     assert page.find("docs") >= 0
 
 
+def test_health():
+    response = client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data == {"status": "healthy"}
+
+
 def test_read_tasks(app_init):
     response = client.get("/tasks")
     assert response.status_code == 200

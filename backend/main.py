@@ -53,9 +53,15 @@ async def root():
     )
 
 
+@app.get("/health")
+async def health():
+    return {"status": "healthy"}
+
+
 @app.get("/tasks")
 async def tasks() -> List[Task]:
-    return list(app.task_list().tasks().values())
+    tasks = list(app.task_list().tasks().values())
+    return tasks
 
 
 @app.post("/tasks", status_code=status.HTTP_201_CREATED)

@@ -12,15 +12,42 @@ services:
       context: backend
       target: dev
     env_file:
-      - backend/.env.dev
-    environment:
-      NODE_ENV: production
+      - backend/.env.docker.dev
     volumes:
       - type: bind
         source: backend
         target: /usr/app/backend
     ports:
       - 8000:8000
+    # TODO no curl in Alpine
+    healthcheck:
+      test: ["CMD", "echo", "1"] #"--fail", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 1
+      start_period: 10s
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  frontend-dev:
+    build:
+      context: frontend
+      target: dev
+    environment:
+      NODE_ENV: development
+    volumes:
+      - type: bind
+        source: frontend/index.html
+        target: /usr/app/frontend/index.html
+      - type: bind
+        source: frontend/src
+        target: /usr/app/frontend/src
+    ports:
+      - 5173:5173
+    depends_on:
+      backend-dev:
+        condition: service_healthy
 
     # The commented out section below is an example of how to define a PostgreSQL
     # database that your application can use. `depends_on` tells Docker Compose to
@@ -29,9 +56,6 @@ services:
     # to set the database password. You must create `db/password.txt` and add
     # a password of your choosing to it before running `docker compose up`.
 
-    depends_on:
-      mongodb:
-        condition: service_healthy
   mongodb:
     image: mongodb/mongodb-community-server:6.0.23-ubuntu2204
     restart: always
@@ -39,9 +63,9 @@ services:
     # secrets:
     #   - db-password
     env_file:
-      - backend/.env.dev
+      - backend/.env.docker.dev
     # environment:
-    #   # TODO make this secure
+    #   # TODO make this secure MONGODB_INITDB_ROOT_USERNAME_FILE,MONGODB_INITDB_ROOT_PASSWORD_FILE
     #   - MONGODB_INITDB_ROOT_USERNAME=user
     #   - MONGODB_INITDB_ROOT_PASSWORD=pass
     # volumes:
@@ -54,7 +78,7 @@ services:
     expose:
       - 27017
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh $MONGODB_URI --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh $$MONGODB_URI --quiet
       interval: 10s
       timeout: 10s
       retries: 5
