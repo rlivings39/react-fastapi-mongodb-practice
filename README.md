@@ -18,7 +18,7 @@ Files of interest are
 From the root of the repo run
 
 ```
-docker compose up frontend-dev --build
+docker compose --profile dev up --build
 ```
 
 This will start MongoDB, the backend in dev mode, and the frontend in dev mode. Hot reloading is enable via bind mounts for both the frontend and backend. So just edit your code normally and changes should be reflected in realtime.
@@ -30,6 +30,18 @@ http://localhost:5173/
 To see the backend doc visit
 
 http://localhost:8000/docs/
+
+To run backend tests in the container
+
+```
+docker compose exec backend-dev pytest -p no:cacheprovider
+```
+
+To start everything for production
+
+```
+docker compose --profile prod up --build
+```
 
 ### Run everything manually
 
@@ -119,10 +131,11 @@ pytest
 - [ ] How to containerize things
 - [ ] Securely handle database in containerization setup
 - [ ] Make env handling more sane in [settings.py](./backend/settings.py)
+- [ ] Run tests in container setup
 - [ ] Document env handling
 - [ ] Add database instructions to README
 - [ ] Update backend tests to fail fast if MongoDB connection fails
-- [ ] How to launch backend and frontend correctly
+- [x] How to launch backend and frontend correctly
 - [ ] Add frontend tests
 - [ ] How to mock out backed when want to test frontend
 - [ ] How to properly handle errors? Maybe add toast messages?
