@@ -1,6 +1,7 @@
 {
   "python.testing.pytestArgs": [".", "-v"],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "cSpell.words": ["healthcheck", "httpx"]
   // Needed to make backend test work right
 }

@@ -41,7 +41,7 @@ http://localhost:8000/docs/
 
 To run backend tests in the container
 
-```
+```bash
 docker compose exec backend-dev pytest -p no:cacheprovider
 ```
 
