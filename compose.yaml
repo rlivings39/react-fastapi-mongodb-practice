@@ -2,7 +2,6 @@
 
 # For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
-# TODO how to separate into dev and prod runs?
 services:
   backend-dev:
     profiles:

@@ -1,69 +1,84 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
+# Python venv location and updated path
+ARG VENV=/opt/venv
+ARG VENV_PATH="$VENV/bin:$PATH"
+ARG USER=appuser
+ARG PORT=8000
 
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
+# Stage 1 - Just build an image with Python and Alpine Linux
 FROM python:3.13.5-alpine3.22 AS base
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+ARG VENV
+ARG VENV_PATH
+ARG USER
+ARG PORT
+RUN addgroup -S appgroup && adduser -S ${USER} -G appgroup
 
+# Stage 2 - Setup to create venv and install packages
 FROM base AS setup
 WORKDIR /usr/app/setup
-
-ENV VIRTUAL_ENV=/opt/venv
+ENV VIRTUAL_ENV=${VENV}
 RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="${VENV_PATH}"
 
 RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
     --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt
 
-# docker build -t my-react-app-backend-dev . --target dev
-# docker run --name my_react_app_backend_dev -p 8000:8000 -v (pwd):/usr/app/backend my-react-app-backend-dev:latest
+# Stage 3 - Create a dev environment with venv from setup
+#
+# Run
+#
+#   docker compose --profile dev up
+#
+# in the root folder to launch this with mongodb
 FROM base AS dev
 WORKDIR /usr/app/backend
 
 # Enable venv
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV VIRTUAL_ENV=${VENV}
+ENV PATH="${VENV_PATH}"
 
 # Run the application as a non-root user.
-USER appuser
+USER ${USER}
 
 # Copy over the venv
-COPY --from=setup /opt/venv /opt/venv
+COPY --from=setup ${VENV} ${VENV}
 
 # Copy the rest of the source files into the image.
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 8000
+EXPOSE ${PORT}
 
 # Run the application.
 CMD ["fastapi", "dev", "main.py", "--host", "0.0.0.0"]
 
-# docker build -t my-react-app-backend-prod . --target prod
-# docker run --name my_react_app_backend_dev -p 8000:8000 -d my-react-app-backend-prod:latest
+# Stage 4 - Production environment
+#
+# Run
+#
+#   docker compose --profile prod up
+#
+# in the root folder to launch this with mongodb
 FROM base AS prod
 WORKDIR /usr/app/backend
 
 # Enable venv
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV VIRTUAL_ENV=${VENV}
+ENV PATH="${VENV_PATH}"
 
 # Run the application as a non-root user.
-USER appuser
+USER ${USER}
 
 # Copy over the venv
-COPY --from=setup /opt/venv /opt/venv
+COPY --from=setup ${VENV} ${VENV}
 
 # Copy the rest of the source files into the image.
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 8000
+EXPOSE ${PORT}
 
 # Run the application.
 CMD ["fastapi", "run", "main.py", "--host", "0.0.0.0"]

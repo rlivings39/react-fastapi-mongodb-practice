@@ -71,6 +71,7 @@ Download this repo. Create `backend/.env.dev` with the contents
 ```bash
 MONGODB_URI="mongodb://mongodb:27017/"
 BACKEND_MODE="db" # or "local" to run without mongodb
+
 # Add these and use them in the URI if you want authentication in dev
 # MONGODB_INITDB_ROOT_USERNAME=<username>
 # MONGODB_INITDB_ROOT_PASSWORD=<password>
