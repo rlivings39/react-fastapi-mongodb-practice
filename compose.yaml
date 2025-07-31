@@ -63,6 +63,8 @@ services:
     env_file:
       - backend/.env.docker.dev
     # environment:
+    #   - MONGODB_INITDB_ROOT_USERNAME_FILE=/run/secrets/db-username
+    #   - MONGODB_INITDB_ROOT_PASSWORD_FILE=/run/secrets/db-password
     #   # TODO make this secure MONGODB_INITDB_ROOT_USERNAME_FILE,MONGODB_INITDB_ROOT_PASSWORD_FILE
     #   - MONGODB_INITDB_ROOT_USERNAME=user
     #   - MONGODB_INITDB_ROOT_PASSWORD=pass
@@ -81,8 +83,13 @@ services:
       timeout: 10s
       retries: 5
       start_period: 40s
-# # volumes:
-#   db-data:
+    # secrets:
+    #   - db-password
+    #   - db-username
 # secrets:
 #   db-password:
-#     file: db/password.txt
+#     file: secrets/db-password.txt
+#   db-username:
+#     file: secrets/db-username.txt
+# # volumes:
+#   db-data:
