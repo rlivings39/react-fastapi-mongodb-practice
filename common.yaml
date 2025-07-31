@@ -3,7 +3,7 @@ services:
     build:
       context: backend
     env_file:
-      - backend/.env.docker.dev
+      - backend/.env.docker
     volumes:
       - type: bind
         source: backend

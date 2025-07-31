@@ -61,7 +61,7 @@ services:
     # secrets:
     #   - db-password
     env_file:
-      - backend/.env.docker.dev
+      - backend/.env.docker
     # environment:
     #   - MONGODB_INITDB_ROOT_USERNAME_FILE=/run/secrets/db-username
     #   - MONGODB_INITDB_ROOT_PASSWORD_FILE=/run/secrets/db-password

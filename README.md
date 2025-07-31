@@ -15,6 +15,15 @@ Files of interest are
 
 ### Run everything with Docker
 
+Create `backend/.env.docker` with the contents
+
+```bash
+MONGODB_URI="mongodb://<username>:<password>@mongodb:27017/"
+BACKEND_MODE="db"
+MONGODB_INITDB_ROOT_USERNAME=<username>
+MONGODB_INITDB_ROOT_PASSWORD=<password>
+```
+
 > **Note** This repo uses profiles in Docker compose. Make sure to specify the profile in commands via `docker compose --profile dev | prod ...`. Just doing `docker compose down` will leave things in a bad state causing future errors.
 
 From the root of the repo run
@@ -57,7 +66,17 @@ docker compose --profile prod down
 
 ### Run everything manually
 
-Download this repo and
+Download this repo. Create `backend/.env.dev` with the contents
+
+```bash
+MONGODB_URI="mongodb://mongodb:27017/"
+BACKEND_MODE="db" # or "local" to run without mongodb
+# Add these and use them in the URI if you want authentication in dev
+# MONGODB_INITDB_ROOT_USERNAME=<username>
+# MONGODB_INITDB_ROOT_PASSWORD=<password>
+```
+
+and run
 
 ```bash
 cd backend
