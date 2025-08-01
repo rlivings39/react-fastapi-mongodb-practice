@@ -33,8 +33,8 @@ class TaskList(ABC):
 
 
 class DbTaskList(TaskList):
-    def __init__(self, *v, **kw):
-        super().__init__(*v, **kw)
+    def __init__(self):
+        super().__init__()
         self._db: MongoDBInterface = MongoDBInterface()
 
     def tasks(self) -> TaskDict:
@@ -59,8 +59,8 @@ class DbTaskList(TaskList):
 
 
 class InMemoryTaskList(TaskList):
-    def __init__(self, *v, **kw):
-        super().__init__(*v, **kw)
+    def __init__(self):
+        super().__init__()
         self._next_id: int = 0
         self._tasks: TaskDict = {}
 
