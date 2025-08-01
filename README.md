@@ -158,8 +158,10 @@ pytest
 - [x] Update test_main.py to test db mode too
 - [x] Update code to allow switching from in memory mode to db mode from the outside
 - [x] How to handle CORS securely
-- [ ] How to containerize things
+- [x] How to containerize things
 - [ ] Securely handle database in containerization setup
+- [ ] Add GitHub actions for testing
+- [ ] See if I can improve db switching mechanism from using `app.state`
 - [ ] Make env handling more sane in [settings.py](./backend/settings.py)
 - [ ] Run tests in container setup
 - [ ] Document env handling
