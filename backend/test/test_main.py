@@ -17,7 +17,7 @@ INITIAL_TASKS = [
 ]
 
 
-# Force local storage for these tests
+# Fixture to switch between MongoDB and in memory storage
 @pytest.fixture(autouse=True, scope="module", params=[DbTaskList, InMemoryTaskList])
 def set_local_scope(request):
     # Note: We must use TestClient in with here to trigger the lifespan events:
