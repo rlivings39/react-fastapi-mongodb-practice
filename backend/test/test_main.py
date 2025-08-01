@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 
 from backend.main import CreateTask, app
 from backend.task import Task
+from backend.task_list import InMemoryTaskList, DbTaskList
 
 client = TestClient(app)
 
@@ -14,6 +15,20 @@ INITIAL_TASKS = [
     CreateTask(name="Test task 2", isCompleted=True),
     CreateTask(name="Test task 3", isCompleted=False),
 ]
+
+
+# Force local storage for these tests
+@pytest.fixture(autouse=True, scope="module", params=[DbTaskList, InMemoryTaskList])
+def set_local_scope(request):
+    # Note: We must use TestClient in with here to trigger the lifespan events:
+    #   https://stackoverflow.com/a/75727846/3297440
+    with TestClient(app) as client:
+        try:
+            orig_tasks = app.state.task_list
+            app.state.task_list = request.param()
+            yield
+        finally:
+            app.state.task_list = orig_tasks
 
 
 def _task_to_route(task: Task):
@@ -26,15 +41,12 @@ def app_init():
 
     Returns list of tasks the database was initialized with
     """
-    # Note: We must use TestClient in with here to trigger the lifespan events:
-    #   https://stackoverflow.com/a/75727846/3297440
-    with TestClient(app) as client:
-        app.state.task_list.set_tasks(INITIAL_TASKS)
-        # Sort tasks by name for predictable behavior
-        task_dict = app.state.task_list.tasks()
-        task_list = list(task_dict.values())
-        task_list.sort(key=lambda t: t.name)
-        yield task_list
+    app.state.task_list.set_tasks(INITIAL_TASKS)
+    # Sort tasks by name for predictable behavior
+    task_dict = app.state.task_list.tasks()
+    task_list = list(task_dict.values())
+    task_list.sort(key=lambda t: t.name)
+    yield task_list
 
 
 def test_root_route():
