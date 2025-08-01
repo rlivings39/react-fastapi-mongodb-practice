@@ -1,4 +1,4 @@
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 from bson.objectid import ObjectId
 from pymongo import MongoClient
