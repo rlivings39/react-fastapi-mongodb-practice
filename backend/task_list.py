@@ -31,11 +31,17 @@ class TaskList(ABC):
     def set_tasks(self, tasks: List[CreateTask]):
         pass
 
+    @abstractmethod
+    def close(self):
+        pass
+
 
 class DbTaskList(TaskList):
-    def __init__(self):
+    def __init__(self, mongodb_client_factory=None):
         super().__init__()
-        self._db: MongoDBInterface = MongoDBInterface()
+        self._db: MongoDBInterface = MongoDBInterface(
+            mongodb_client_factory=mongodb_client_factory
+        )
 
     def tasks(self) -> TaskDict:
         return self._db.get_all_tasks()
@@ -56,6 +62,9 @@ class DbTaskList(TaskList):
 
     def set_tasks(self, tasks: List[CreateTask]):
         self._db.set_tasks(tasks)
+
+    def close(self):
+        self._db.close()
 
 
 class InMemoryTaskList(TaskList):
@@ -105,3 +114,6 @@ class InMemoryTaskList(TaskList):
         )
         self._next_id = len(tasks)
         self._tasks = {t.id: t for t in task_list}
+
+    def close(self):
+        pass

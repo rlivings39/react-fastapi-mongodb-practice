@@ -26,12 +26,15 @@ def app_init():
 
     Returns list of tasks the database was initialized with
     """
-    app.set_tasks(INITIAL_TASKS)
-    # Sort tasks by name for predictable behavior
-    task_dict = app.task_list().tasks()
-    task_list = list(task_dict.values())
-    task_list.sort(key=lambda t: t.name)
-    yield task_list
+    # Note: We must use TestClient in with here to trigger the lifespan events:
+    #   https://stackoverflow.com/a/75727846/3297440
+    with TestClient(app) as client:
+        app.state.task_list.set_tasks(INITIAL_TASKS)
+        # Sort tasks by name for predictable behavior
+        task_dict = app.state.task_list.tasks()
+        task_list = list(task_dict.values())
+        task_list.sort(key=lambda t: t.name)
+        yield task_list
 
 
 def test_root_route():

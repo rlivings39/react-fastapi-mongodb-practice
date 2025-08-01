@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Any
 
 from bson.objectid import ObjectId
 from pymongo import MongoClient
@@ -35,13 +35,14 @@ def _id_to_query(id: TaskId) -> Dict[str, ObjectId] | None:
 
 
 class MongoDBInterface:
-    def __init__(self, db_name: str = "todo_app"):
+    def __init__(self, db_name: str = "todo_app", mongodb_client_factory: Any = None):
         # Provide the mongodb atlas url to connect python to mongodb using pymongo
         CONNECTION_STRING = settings.MONGODB_URI
         print(f"MOGODB_URI: {CONNECTION_STRING}")
 
         # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
-        self._client = MongoClient(
+        mongodb_client_factory = mongodb_client_factory or MongoClient
+        self._client: MongoClient[Any] = mongodb_client_factory(
             CONNECTION_STRING, connectTimeoutMs=5000, timeoutMs=5000
         )
 
@@ -98,6 +99,9 @@ class MongoDBInterface:
         self._task_collection.drop()
         for task in tasks:
             self.create_task(task)
+
+    def close(self):
+        self._client.close()
 
 
 if __name__ == "__main__":

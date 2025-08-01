@@ -1,7 +1,8 @@
+from contextlib import asynccontextmanager
 import os
-from typing import List, Literal
+from typing import Annotated, List, Literal
 
-from fastapi import FastAPI, Response, status
+from fastapi import Depends, FastAPI, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import validate_call
@@ -11,31 +12,21 @@ from backend.task import CreateTask, Task, TaskId, UpdateTask
 from backend.task_list import DbTaskList, InMemoryTaskList, TaskList
 
 
-class TodoFastAPI(FastAPI):
-    _task_list: TaskList
-
-    @validate_call
-    def __init__(
-        self,
-        data_source: Literal["local"] | Literal["db"],
-    ):
-        super().__init__()
-        self._data_source = data_source
-        if self._data_source == "local":
-            self._task_list = InMemoryTaskList()
-        elif self._data_source == "db":
-            self._task_list = DbTaskList()
-
-    def task_list(self):
-        return self._task_list
-
-    def set_tasks(self, tasks: List[CreateTask]):
-        self._task_list.set_tasks(tasks)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    match settings.BACKEND_MODE:
+        case "db":
+            task_list = DbTaskList()
+        case "local":
+            task_list = InMemoryTaskList()
+    print(f"Setting task list")
+    app.state.task_list = task_list
+    print(f"State: {app.state.task_list}")
+    yield
+    task_list.close()
 
 
-app = TodoFastAPI(
-    data_source=settings.BACKEND_MODE,
-)
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -60,13 +51,13 @@ async def health():
 
 @app.get("/tasks")
 async def tasks() -> List[Task]:
-    tasks = list(app.task_list().tasks().values())
+    tasks = list(app.state.task_list.tasks().values())
     return tasks
 
 
 @app.post("/tasks", status_code=status.HTTP_201_CREATED)
 async def create_task(input_task: CreateTask, response: Response) -> Task:
-    new_task = app.task_list().create_task(
+    new_task = app.state.task_list.create_task(
         name=input_task.name, isCompleted=input_task.isCompleted
     )
     response.headers["Location"] = f"/tasks/{new_task.id}"
@@ -75,7 +66,7 @@ async def create_task(input_task: CreateTask, response: Response) -> Task:
 
 @app.get("/tasks/{id}")
 async def get_task(id: TaskId, response: Response):
-    task = app.task_list().get_task(id)
+    task = app.state.task_list.get_task(id)
     if task is None:
         response.status_code = status.HTTP_404_NOT_FOUND
         return
@@ -84,7 +75,7 @@ async def get_task(id: TaskId, response: Response):
 
 @app.delete("/tasks/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_task(id: TaskId, response: Response):
-    if app.task_list().delete_task(id):
+    if app.state.task_list.delete_task(id):
         return
     # Didn't find it
     response.status_code = 404
@@ -92,7 +83,7 @@ async def delete_task(id: TaskId, response: Response):
 
 @app.put("/tasks/{id}", status_code=status.HTTP_201_CREATED)
 async def update_task(id: TaskId, body: UpdateTask, response: Response) -> Task | None:
-    updated = app.task_list().update_task(id, body)
+    updated = app.state.task_list.update_task(id, body)
     if updated is None:
         response.status_code = 404
         return
