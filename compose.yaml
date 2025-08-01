@@ -6,6 +6,10 @@ services:
   backend-dev:
     profiles:
       - dev
+    volumes:
+      - type: bind
+        source: backend
+        target: /usr/app/backend
     extends:
       file: common.yaml
       service: backend-template

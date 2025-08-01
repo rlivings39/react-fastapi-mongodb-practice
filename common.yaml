@@ -4,10 +4,6 @@ services:
       context: backend
     env_file:
       - backend/.env.docker
-    volumes:
-      - type: bind
-        source: backend
-        target: /usr/app/backend
     ports:
       - 8000:8000
     healthcheck:
